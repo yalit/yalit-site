@@ -7,6 +7,9 @@
     @apply flex justify-between items-center py-4;
     ul {
       @apply flex space-x-4 items-center text-sm rounded-full bg-white/90 px-5 py-1 font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur;
+      a {
+        @apply font-medium;
+      }
     }
   }
 }
@@ -19,6 +22,12 @@
   @apply flex justify-between border-t border-zinc-100 mt-10 pb-16 pt-10 px-4 lg:px-8;
 
   :global {
+    nav {
+      @apply flex gap-4 items-center;
+      a {
+        @apply font-medium;
+      }
+    }
     .trademark {
       @apply text-zinc-800 text-xs italic;
     }
