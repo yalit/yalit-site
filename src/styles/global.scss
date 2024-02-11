@@ -1,0 +1,16 @@
+:root {
+  --content-offset: 80px;
+}
+
+html {
+  @apply bg-zinc-50;
+
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    sans-serif,
+    Apple Color Emoji,
+    Segoe UI Emoji,
+    Segoe UI Symbol,
+    Noto Color Emoji;
+}

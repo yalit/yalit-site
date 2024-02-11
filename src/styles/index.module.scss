@@ -1,0 +1,35 @@
+.summary {
+  :global {
+    .title {
+      @apply mb-8 max-w-2xl lg:max-w-4xl text-4xl font-bold text-zinc-800 sm:text-5xl;
+    }
+
+    .description {
+      @apply text-lg text-zinc-600 leading-8;
+      & > div {
+        @apply flex justify-between items-center gap-x-10;
+        &:last-child {
+          @apply flex-row-reverse;
+        }
+      }
+
+      .rounded_img {
+        @apply aspect-[9/10] w-44 flex-none overflow-hidden rounded-xl bg-zinc-100 sm:w-72 sm:rounded-2xl dark:bg-zinc-800;
+      }
+    }
+
+    .socials {
+      @apply mt-8 flex items-center justify-end gap-3;
+    }
+  }
+}
+
+.banner {
+  @apply -my-4 flex justify-center gap-5 overflow-hidden py-4 sm:gap-8;
+}
+
+.projects {
+}
+
+.blog {
+}
