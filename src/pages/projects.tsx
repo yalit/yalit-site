@@ -6,8 +6,6 @@ import { GatsbyImage } from "gatsby-plugin-image";
 export default function Projects({ data }: PageProps) {
   return (
     <Layout>
-      <div>Hello World</div>
-      <Link to="/about">About</Link>
       {data.projects.nodes.map((project: any) => (
         <div key={project.id}>
           <h2>{project.frontmatter.title}</h2>

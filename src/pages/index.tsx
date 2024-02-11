@@ -1,7 +1,8 @@
 import { Link, PageProps } from "gatsby";
 import * as React from "react";
 import Layout from "../components/layout";
-import { summary, banner, bannerImage } from "../styles/index.module.scss";
+import { summary } from "../styles/shared.module.scss";
+import { banner, bannerImage } from "../styles/index.module.scss";
 import LinkedinIcon from "../components/icons/linkedin";
 import GithubIcon from "../components/icons/github";
 import Icon500px from "../components/icons/500px";

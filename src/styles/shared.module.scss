@@ -1,0 +1,35 @@
+.summary {
+  @apply relative;
+  :global {
+    .title {
+      @apply mb-8 text-4xl font-bold text-zinc-800 sm:text-5xl;
+    }
+
+    .me {
+      @apply absolute top-0 right-10 lg:right-20 rounded-full;
+    }
+
+    .description {
+      @apply text-base md:text-lg text-zinc-600 leading-8;
+      & > div {
+        @apply flex flex-col md:flex-row justify-between items-center gap-10;
+
+        &:last-child {
+          @apply md:flex-row-reverse mt-10 md:mt-20;
+        }
+
+        .gatsby-image-wrapper {
+          @apply hidden md:block;
+        }
+      }
+
+      .rounded_img {
+        @apply aspect-[9/10] w-40 flex-none overflow-hidden rounded-xl bg-zinc-100 sm:w-64 sm:rounded-2xl;
+      }
+    }
+
+    .socials {
+      @apply mt-8 flex items-center justify-end gap-3;
+    }
+  }
+}
