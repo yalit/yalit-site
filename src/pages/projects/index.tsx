@@ -56,10 +56,11 @@ export default function Projects({ data }: PageProps<ProjectsPageQuery>) {
   }, [tags]);
 
   const tagClassName = (tag: string, additionalCSS: string) => {
+    const isTagSelected =
+      tags.includes(tag) || (tag === "" && tags.length === 0);
     return classnames(
-      "bg-gray-300 px-3 py-1 rounded-md",
-      tags.includes(tag) ? "bg-blue-200" : "",
-      tag === "" && tags.length === 0 ? "bg-blue-200" : "",
+      "px-3 py-1 rounded-md",
+      isTagSelected ? "bg-blue-200" : "bg-gray-300",
       additionalCSS,
     );
   };
