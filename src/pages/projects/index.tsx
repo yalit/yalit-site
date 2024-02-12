@@ -3,6 +3,7 @@ import { PageProps, graphql } from "gatsby";
 import Layout from "../../components/layout";
 import { summary } from "../../styles/shared.module.scss";
 import { projectsList } from "../../styles/projects.module.scss";
+import classnames from "../../helpers/classnames";
 
 type ProjectData = {
   id: string;
@@ -24,22 +25,21 @@ export default function Projects({ data }: PageProps<ProjectsPageQuery>) {
   );
   const dataTags: string[] = [
     ...new Set(
-      dataProjects.reduce((acc: string[], project: ProjectData) => {
-        return [...acc, ...project.tags];
-      }, []),
+      dataProjects
+        .reduce((acc: string[], project: ProjectData) => {
+          return [...acc, ...project.tags];
+        }, [])
+        .sort(),
     ),
   ];
   const [projects, setProjects] = useState<ProjectData[]>(dataProjects);
   const [tags, setTags] = useState<string[]>([]);
 
   const onClickTag = (tag: string) => {
-    //TODO : refine the tag filtering...
     if (tags.includes(tag)) {
       setTags(tags.filter((t) => t !== tag));
-      setProjects(dataProjects);
     } else {
       setTags([...tags, tag]);
-      setProjects(dataProjects.filter((project) => project.tags.includes(tag)));
     }
   };
 
@@ -47,9 +47,22 @@ export default function Projects({ data }: PageProps<ProjectsPageQuery>) {
     if (tags.length === 0) {
       // reset filter
       setProjects(dataProjects);
+    } else {
+      const newProjects = dataProjects.filter((project) => {
+        return tags.every((tag) => project.tags.includes(tag));
+      });
+      setProjects(newProjects);
     }
   }, [tags]);
 
+  const tagClassName = (tag: string, additionalCSS: string) => {
+    return classnames(
+      "bg-gray-300 px-3 py-1 rounded-md",
+      tags.includes(tag) ? "bg-blue-200" : "",
+      tag === "" && tags.length === 0 ? "bg-blue-200" : "",
+      additionalCSS,
+    );
+  };
   return (
     <Layout>
       <div className={summary}>
@@ -60,19 +73,13 @@ export default function Projects({ data }: PageProps<ProjectsPageQuery>) {
         </div>
       </div>
 
-      <p className="font-bold text-lg mb-5">Filter by technology</p>
-      <div className="flex gap-2 mb-5">
-        <button
-          className="bg-gray-300 px-3 py-1 rounded-md"
-          onClick={() => setTags([])}
-        >
+      <div className="flex items-center gap-2 my-12 flex-wrap">
+        <p className="font-bold text-lg">Filter by technology </p>
+        <button className={tagClassName("")} onClick={() => setTags([])}>
           All
         </button>
         {dataTags.map((tag) => (
-          <button
-            className="bg-gray-300 px-3 py-1 rounded-md"
-            onClick={() => onClickTag(tag)}
-          >
+          <button className={tagClassName(tag)} onClick={() => onClickTag(tag)}>
             {tag}
           </button>
         ))}
@@ -83,7 +90,9 @@ export default function Projects({ data }: PageProps<ProjectsPageQuery>) {
             <h3 className="font-bold text-lg mb-5">{project.title}</h3>
             <p className="leading-relaxed mb-5">{project.summary}</p>
             <p className="flex gap-2 items-center">
-              <p className="font-bold text-sm">Technologies :</p>
+              <p className="font-bold text-sm whitespace-nowrap">
+                Technologies :
+              </p>
               {project.tags?.map((tag) => (
                 <p className="text-sm underline">{tag}</p>
               ))}
