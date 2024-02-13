@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "../../components/layout";
-import { graphql } from "gatsby";
+import { Link, graphql } from "gatsby";
 import { GatsbyImage, IGatsbyImageData, getImage } from "gatsby-plugin-image";
 
 import "../../styles/blog.scss";
@@ -35,16 +35,18 @@ export default function BlogPost({ data }) {
       </div>
       <div className="post-container">
         <div className="date">
-          <span class="h-4 w-0.5 rounded-full bg-zinc-200"></span>
+          <span className="h-4 w-0.5 rounded-full bg-zinc-200"></span>
           <div className="ml-3">{blog.date}</div>
         </div>
         {blog.tags && blog.tags.length > 0 && (
           <div className="tags">
             <span className="h-4 w-0.5 mr-2 rounded-full bg-zinc-200"></span>
             {blog.tags.map((tag, index) => (
-              <span key={index} className="tag">
-                {tag}
-              </span>
+              <Link to={"/blog/tags/" + tag} key={"Link-Tag" + index}>
+                <span key={index} className="tag">
+                  {tag}
+                </span>
+              </Link>
             ))}
           </div>
         )}
