@@ -66,40 +66,45 @@ export default function Projects({ data }: PageProps<ProjectsPageQuery>) {
   };
   return (
     <Layout>
-      <div className={summary}>
-        <div className="title">Some projects I've worked on</div>
-        <div className="description">
-          Below are some of the projects I've worked on. Click on the title to
-          read more about them.
-        </div>
-      </div>
-
-      <div className="flex items-center gap-2 my-12 flex-wrap">
-        <p className="font-bold text-lg">Filter by technology </p>
-        <button className={tagClassName("")} onClick={() => setTags([])}>
-          All
-        </button>
-        {dataTags.map((tag) => (
-          <button className={tagClassName(tag)} onClick={() => onClickTag(tag)}>
-            {tag}
-          </button>
-        ))}
-      </div>
-      <div className={projectsList}>
-        {projects.map((project: ProjectData) => (
-          <div key={project.id}>
-            <h3 className="font-bold text-lg mb-5">{project.title}</h3>
-            <p className="leading-relaxed mb-5">{project.summary}</p>
-            <p className="flex gap-2 items-center">
-              <p className="font-bold text-sm whitespace-nowrap">
-                Technologies :
-              </p>
-              {project.tags?.map((tag) => (
-                <p className="text-sm underline">{tag}</p>
-              ))}
-            </p>
+      <div className="px-8">
+        <div className={summary}>
+          <div className="title">Some projects I've worked on</div>
+          <div className="description">
+            Below are some of the projects I've worked on. Click on the title to
+            read more about them.
           </div>
-        ))}
+        </div>
+
+        <div className="flex items-center gap-2 my-12 flex-wrap">
+          <p className="font-bold text-lg">Filter by technology </p>
+          <button className={tagClassName("")} onClick={() => setTags([])}>
+            All
+          </button>
+          {dataTags.map((tag) => (
+            <button
+              className={tagClassName(tag)}
+              onClick={() => onClickTag(tag)}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+        <div className={projectsList}>
+          {projects.map((project: ProjectData) => (
+            <div key={project.id}>
+              <h3 className="font-bold text-lg mb-5">{project.title}</h3>
+              <p className="leading-relaxed mb-5">{project.summary}</p>
+              <p className="flex gap-2 items-center">
+                <p className="font-bold text-sm whitespace-nowrap">
+                  Technologies :
+                </p>
+                {project.tags?.map((tag) => (
+                  <p className="text-sm underline">{tag}</p>
+                ))}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </Layout>
   );

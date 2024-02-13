@@ -1,7 +1,7 @@
 import { Link } from "gatsby";
 import React, { ReactNode } from "react";
 import { global_content_offset_y } from "../styles/layout.module.scss";
-import { header, container, main, footer } from "../styles/layout.module.scss";
+import { header, container, footer } from "../styles/layout.module.scss";
 import { StaticImage } from "gatsby-plugin-image";
 
 type NavLinkType = { display: ReactNode; link: string };
@@ -45,7 +45,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       <div className={global_content_offset_y}></div>
 
-      <main className={main}>{children}</main>
+      <main>{children}</main>
 
       <footer className={footer}>
         <nav>

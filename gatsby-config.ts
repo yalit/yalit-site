@@ -14,7 +14,6 @@ const config: GatsbyConfig = {
     "gatsby-plugin-sass",
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
-    "gatsby-transformer-remark",
     "gatsby-plugin-image",
     "gatsby-plugin-sitemap",
     {
@@ -54,6 +53,36 @@ const config: GatsbyConfig = {
         path: "./src/images/",
       },
       __key: "images",
+    },
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        plugins: [
+          {
+            resolve: `gatsby-remark-prismjs`,
+            options: {
+              classPrefix: "language-",
+              inlineCodeMarker: null,
+              aliases: {},
+              showLineNumbers: false,
+              noInlineHighlight: false,
+              prompt: {
+                user: "root",
+                host: "localhost",
+                global: false,
+              },
+              escapeEntities: {},
+            },
+          },
+          {
+            resolve: `gatsby-remark-images`,
+            options: {
+              maxWidth: 5000,
+              linkImagesToOriginal: false,
+            },
+          },
+        ],
+      },
     },
   ],
 };

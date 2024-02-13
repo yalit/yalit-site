@@ -2,8 +2,9 @@ import React from "react";
 import Layout from "../../components/layout";
 import { graphql } from "gatsby";
 import { GatsbyImage, IGatsbyImageData, getImage } from "gatsby-plugin-image";
-import { postContainer } from "../../styles/blog.module.scss";
-import { summary } from "../../styles/shared.module.scss";
+
+import "../../styles/blog.scss";
+
 type BlogPostDetails = {
   id: string;
   title: string;
@@ -13,7 +14,7 @@ type BlogPostDetails = {
   excerpt: string;
   img_hero: IGatsbyImageData;
   img_hero_alt: string;
-  img_hero_title: string;
+  img_hero_credit: string;
 };
 
 export default function BlogPost({ data }) {
@@ -24,27 +25,30 @@ export default function BlogPost({ data }) {
     img_hero: getImage(data.markdownRemark.frontmatter.img_hero),
   };
 
+  console.log(data);
+
   return (
     <Layout>
-      <div className={postContainer}>
+      <div className="img-hero">
+        <GatsbyImage image={blog.img_hero} alt={blog.img_hero_alt} />
+        <p className="img-credit">Crédit: {blog.img_hero_credit}</p>
+      </div>
+      <div className="post-container">
         <div className="date">
           <span class="h-4 w-0.5 rounded-full bg-zinc-200"></span>
           <div className="ml-3">{blog.date}</div>
         </div>
-        <div className="tags">
-          <span class="h-4 w-0.5 mr-2 rounded-full bg-zinc-200"></span>
-          {blog.tags.map((tag, index) => (
-            <span key={index} className="tag">
-              {tag}
-            </span>
-          ))}
-        </div>
+        {blog.tags && blog.tags.length > 0 && (
+          <div className="tags">
+            <span className="h-4 w-0.5 mr-2 rounded-full bg-zinc-200"></span>
+            {blog.tags.map((tag, index) => (
+              <span key={index} className="tag">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
         <div className="title">{blog.title}</div>
-        <GatsbyImage
-          image={blog.img_hero}
-          alt={blog.img_hero_alt}
-          className="mb-5"
-        />
         <div dangerouslySetInnerHTML={{ __html: blog.html }} />
       </div>
     </Layout>
