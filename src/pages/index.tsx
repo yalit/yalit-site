@@ -44,7 +44,9 @@ const IndexPage: React.FC<PageProps> = ({ data }) => {
           <div className="description">
             <div>
               <p>
-                I'm Yannick, a developer, analyst, and project manager. I have a
+                I'm Yannick, a <span className="font-bold">developer</span>,{" "}
+                <span className="font-bold">analyst</span>, and{" "}
+                <span className="font-bold">project manager</span>. I have a
                 passion for technology and I love to find solutions and build
                 things. I have a strong background in software development,
                 project management and business analysis. I have worked in
@@ -53,9 +55,10 @@ const IndexPage: React.FC<PageProps> = ({ data }) => {
                 new challenges.
                 <br />
                 My favorite stack is <Link to="https://react.dev/">React</Link>
-                &nbsp;and <Link to="https://www.symfony.com">Symfony</Link>, but
-                I have experience with other technologies as well. I am always
-                looking to learn new things and I am open to new opportunities.
+                &nbsp;and <Link to="https://www.symfony.com">Symfony</Link>, and
+                I have experience with other technologies as well (Svelte,
+                Wordpress, Drupal ...). I am always looking to learn new things
+                and I am open to new opportunities.
               </p>
               <StaticImage
                 className="rounded_img rotate-2"
@@ -67,12 +70,13 @@ const IndexPage: React.FC<PageProps> = ({ data }) => {
             </div>
             <div>
               <p>
-                I'm also a passionate photographer. <br />I love to capture the
-                beauty of the world and share it with others. I have a strong
-                interest in nature, landscapes, and urban photography. <br />I
-                love to explore new places and capture the beauty of the world.
-                I'm always looking for new opportunities to collaborate with
-                other photographers and artists.
+                I'm also a passionate{" "}
+                <span className="font-bold">photographer</span>. <br />I love to
+                capture the beauty of the world and share it with others. I have
+                a strong interest in nature, landscapes, and urban photography.{" "}
+                <br />I love to explore new places and capture the beauty of the
+                world. I'm always looking for new opportunities to collaborate
+                with other photographers and artists.
               </p>
               <StaticImage
                 className="rounded_img -rotate-2"
