@@ -1,10 +1,10 @@
 import Layout from "../../components/layout";
 import React from "react";
-import { summary } from "../../styles/shared.module.scss";
 import { graphql } from "gatsby";
 import "../../styles/blog.scss";
 import BlogPostsList from "../../components/blog/BlogPostsList";
 import usePostsFromAllFile from "../../hooks/usePostsFromAllFile";
+import "../../styles/shared.scss";
 
 export type BlogPostNode = {
   childMarkdownRemark: {
@@ -31,7 +31,7 @@ const BlogPosts = ({ data }: BlogPostsProps) => {
   return (
     <Layout>
       <div className="px-8">
-        <div className={summary}>
+        <div className="summary">
           <div className="title">
             <p>A place to share my thoughts</p>
             <p className="ml-8">Un endroit pour partager mes pensées</p>

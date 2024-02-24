@@ -1,8 +1,7 @@
 import { Link } from "gatsby";
 import React, { ReactNode } from "react";
-import { global_content_offset_y } from "../styles/layout.module.scss";
-import { header, container, footer } from "../styles/layout.module.scss";
 import { StaticImage } from "gatsby-plugin-image";
+import "../styles/layout.scss";
 
 type NavLinkType = { display: ReactNode; link: string };
 const navLinks: NavLinkType[] = [
@@ -28,8 +27,8 @@ const navLinks: NavLinkType[] = [
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className={container}>
-      <header className={header}>
+    <div className="container">
+      <header className="header">
         <nav>
           <div className="flex-1"></div>
           <ul>
@@ -43,11 +42,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </nav>
       </header>
 
-      <div className={global_content_offset_y}></div>
+      <div className="global_content_offset_y"></div>
 
       <main>{children}</main>
 
-      <footer className={footer}>
+      <footer className="footer">
         <nav>
           {navLinks.map((navLink, index) => (
             <Link key={index} to={navLink.link}>

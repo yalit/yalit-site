@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "../../../components/layout";
-import { summary } from "../../../styles/shared.module.scss";
+import "../../../styles/shared.scss";
 import "../../../styles/blog.scss";
 import { graphql } from "gatsby";
 import { BlogPostNode } from "../index";
