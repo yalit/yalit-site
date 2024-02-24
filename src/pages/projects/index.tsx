@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { PageProps, graphql } from "gatsby";
 import Layout from "../../components/layout";
-import { summary } from "../../styles/shared.module.scss";
-import { projectsList } from "../../styles/projects.module.scss";
 import classnames from "../../helpers/classnames";
+import "../../styles/shared.scss";
+import "../../styles/projects.scss";
 
 type ProjectData = {
   id: string;
@@ -67,7 +67,7 @@ export default function Projects({ data }: PageProps<ProjectsPageQuery>) {
   return (
     <Layout>
       <div className="px-8">
-        <div className={summary}>
+        <div className="summary">
           <div className="title">Some projects I've worked on</div>
           <div className="description">
             Below are some of the projects I've worked on. Click on the title to
@@ -89,7 +89,7 @@ export default function Projects({ data }: PageProps<ProjectsPageQuery>) {
             </button>
           ))}
         </div>
-        <div className={projectsList}>
+        <div className="projectsList">
           {projects.map((project: ProjectData) => (
             <div key={project.id}>
               <h3 className="font-bold text-lg mb-5">{project.title}</h3>
