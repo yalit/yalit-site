@@ -1,33 +1,20 @@
 import { Link, PageProps } from "gatsby";
 import * as React from "react";
 import Layout from "../components/layout";
-import { summary } from "../styles/shared.module.scss";
-import { banner, bannerImage } from "../styles/index.module.scss";
 import LinkedinIcon from "../components/icons/linkedin";
 import GithubIcon from "../components/icons/github";
 import Icon500px from "../components/icons/500px";
 import InstagramIcon from "../components/icons/instagram";
 import { StaticImage } from "gatsby-plugin-image";
 import classnames from "../helpers/classnames";
-
-type BannerImageType = { src: string; alt: string };
-
-const bannerImages: BannerImageType[] = [
-  { src: "../images/index/coast.jpg", alt: "Coast with cliffs and nature" },
-  { src: "../images/index/cow.jpg", alt: "Coast with cliffs and nature" },
-  { src: "../images/index/source.jpg", alt: "Coast with cliffs and nature" },
-  { src: "../images/index/wood_nb.jpg", alt: "Coast with cliffs and nature" },
-  {
-    src: "../images/index/tree_light.jpg",
-    alt: "Coast with cliffs and nature",
-  },
-];
+import "../styles/shared.scss";
+import "../styles/index.scss";
 
 const IndexPage: React.FC<PageProps> = ({ data }) => {
   return (
     <Layout>
       <div className="px-8">
-        <div className={summary}>
+        <div className="summary">
           <div className="title">
             <p>Developer</p>
             <p className="ml-10">Analyst</p>
@@ -54,9 +41,9 @@ const IndexPage: React.FC<PageProps> = ({ data }) => {
                 I thrive in a fast-paced environment and I am always looking for
                 new challenges.
                 <br />
-                My favorite stack is <Link to="https://react.dev/">React</Link>
-                &nbsp;and <Link to="https://www.symfony.com">Symfony</Link>, and
-                I have experience with other technologies as well (Svelte,
+                My favorite stack is <a href="https://react.dev/">React</a>
+                &nbsp;and <a href="https://www.symfony.com">Symfony</a>, and I
+                have experience with other technologies as well (Svelte,
                 Wordpress, Drupal ...). I am always looking to learn new things
                 and I am open to new opportunities.
               </p>
@@ -88,50 +75,50 @@ const IndexPage: React.FC<PageProps> = ({ data }) => {
             </div>
           </div>
           <div className="socials">
-            <Link
-              to="https://www.linkedin.com/in/yannickalsberge"
+            <a
+              href="https://www.linkedin.com/in/yannickalsberge"
               target="_blank"
             >
               <LinkedinIcon />
-            </Link>
-            <Link to="https://github.com/yalit" target="_blank">
+            </a>
+            <a href="https://github.com/yalit" target="_blank">
               <GithubIcon />
-            </Link>
-            <Link to="https://500px.com/p/rever1es" target="_blank">
+            </a>
+            <a href="https://500px.com/p/rever1es" target="_blank">
               <Icon500px />
-            </Link>
-            <Link
-              to="https://www.instagram.com/reveries_photos/"
+            </a>
+            <a
+              href="https://www.instagram.com/reveries_photos/"
               target="_blank"
             >
               <InstagramIcon />
-            </Link>
+            </a>
           </div>
         </div>
 
-        <div className={banner}>
+        <div className="banner">
           <StaticImage
-            className={classnames(bannerImage, "-rotate-3")}
+            className={classnames("bannerImage", "-rotate-3")}
             src="../images/index/coast.jpg"
             alt="Coast with cliffs and nature"
           />
           <StaticImage
-            className={classnames(bannerImage, "rotate-2")}
+            className={classnames("bannerImage", "rotate-2")}
             src="../images/index/cow.jpg"
             alt="Coast with cliffs and nature"
           />
           <StaticImage
-            className={classnames(bannerImage, "-rotate-1")}
+            className={classnames("bannerImage", "-rotate-1")}
             src="../images/index/source.jpg"
             alt="Coast with cliffs and nature"
           />
           <StaticImage
-            className={classnames(bannerImage, "rotate-2")}
+            className={classnames("bannerImage", "rotate-2")}
             src="../images/index/wood_nb.jpg"
             alt="Coast with cliffs and nature"
           />
           <StaticImage
-            className={classnames(bannerImage, "-rotate-3")}
+            className={classnames("bannerImage", "-rotate-3")}
             src="../images/index/tree_light.jpg"
             alt="Coast with cliffs and nature"
           />
