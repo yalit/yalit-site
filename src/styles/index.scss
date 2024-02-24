@@ -1,13 +1,35 @@
-.banner {
-  @apply my-20 flex justify-center gap-5 overflow-visible py-4 sm:gap-8;
+.four-images {
+  @apply grid grid-cols-1 gap-4 md:grid-cols-2 w-screen h-screen;
 
-  .bannerImage {
-    @apply aspect-[9/10] w-44 flex-none rounded-xl bg-zinc-100 sm:w-72 sm:rounded-2xl;
+  img {
+    @apply w-full h-full object-cover;
   }
 }
 
-.projects {
-}
+.four-titles {
+  @apply absolute inset-0 grid grid-cols-1 gap-4 md:grid-cols-2 w-screen h-screen;
 
-.blog {
+  a {
+    @apply w-full h-full bg-black bg-opacity-50 flex text-white text-4xl p-4 items-center justify-center;
+
+    &:nth-child(1) {
+      @apply md:items-end md:justify-end;
+    }
+
+    &:nth-child(2) {
+      @apply md:items-end md:justify-start;
+    }
+
+    &:nth-child(3) {
+      @apply md:items-start md:justify-end;
+    }
+
+    &:nth-child(4) {
+      @apply md:items-start md:justify-start;
+    }
+
+    &:hover {
+      @apply bg-opacity-20;
+    }
+  }
 }
