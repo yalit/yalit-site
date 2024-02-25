@@ -115,84 +115,88 @@ export default function Gallery({ pageContext, data }) {
   }, [shownPhoto]);
 
   return (
-    <Layout>
-      <div className="gallery-page">
-        <div className="gallery-title">
-          <div className="title">{gallery.title}</div>
-          {gallery.subtitle && (
-            <div className="subtitle">{gallery.subtitle}</div>
-          )}
-        </div>
-        <div className="gallery-info">
-          <div className="infos idea">
-            <div className="info-title">Idea</div>
-            <div className="info-content">{gallery.idea}</div>
+    <>
+      <Layout>
+        <div className="gallery-page">
+          <div className="gallery-title">
+            <div className="title">{gallery.title}</div>
+            {gallery.subtitle && (
+              <div className="subtitle">{gallery.subtitle}</div>
+            )}
           </div>
-          <div className="infos categories">
-            <div className="info-title">Categories</div>
-            <div className="info-content">
-              {gallery.categories.map((category) => (
-                <div>
-                  <Link to={"/reveries/category/" + category}>{category}</Link>
-                </div>
-              ))}
+          <div className="gallery-info">
+            <div className="infos idea">
+              <div className="info-title">Idea</div>
+              <div className="info-content">{gallery.idea}</div>
             </div>
-          </div>
-          <div className="infos tags">
-            <div className="info-title">Tags</div>
-            <div className="info-content">
-              {gallery.tags.map((tag) => (
-                <div>#{tag}</div>
-              ))}
-            </div>
-          </div>
-          {gallery.location && (
-            <div className="infos location">
-              <div className="info-title">Time & Place</div>
+            <div className="infos categories">
+              <div className="info-title">Categories</div>
               <div className="info-content">
-                {gallery.year && String(gallery.year) + " - "}
-                {gallery.location}
+                {gallery.categories.map((category) => (
+                  <div>
+                    <Link to={"/reveries/category/" + category}>
+                      {category}
+                    </Link>
+                  </div>
+                ))}
               </div>
             </div>
-          )}
-        </div>
-        <div className="gallery-photos">
-          {photos.map((photoColumn, index) => (
-            <div
-              className="photos-column"
-              ref={index === 0 ? photoColumnRef : null}
-            >
-              {photoColumn.map((photo) => (
-                <div className="photo" onClick={() => setShownPhoto(photo)}>
-                  <GatsbyImage image={photo.data} alt={photo.subtitle} />
-                  <div className="photo-info">{photo.subtitle}</div>
+            <div className="infos tags">
+              <div className="info-title">Tags</div>
+              <div className="info-content">
+                {gallery.tags.map((tag) => (
+                  <div>#{tag}</div>
+                ))}
+              </div>
+            </div>
+            {gallery.location && (
+              <div className="infos location">
+                <div className="info-title">Time & Place</div>
+                <div className="info-content">
+                  {gallery.year && String(gallery.year) + " - "}
+                  {gallery.location}
                 </div>
-              ))}
-            </div>
-          ))}
-        </div>
-        {shownPhoto && (
-          <div
-            className="photo-modal"
-            style={{
-              top: window.scrollY,
-              left: 0,
-              right: 0,
-              height: window.innerHeight,
-            }}
-          >
-            <div className="close" onClick={() => setShownPhoto(null)}>
-              X
-            </div>
-            <GatsbyImage
-              image={shownPhoto.data}
-              alt={shownPhoto.subtitle}
-              objectFit="contain"
-            />
+              </div>
+            )}
           </div>
-        )}
-      </div>
-    </Layout>
+          <div className="gallery-photos">
+            {photos.map((photoColumn, index) => (
+              <div
+                className="photos-column"
+                ref={index === 0 ? photoColumnRef : null}
+              >
+                {photoColumn.map((photo) => (
+                  <div className="photo" onClick={() => setShownPhoto(photo)}>
+                    <GatsbyImage image={photo.data} alt={photo.subtitle} />
+                    <div className="photo-info">{photo.subtitle}</div>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </Layout>
+      {shownPhoto && (
+        <div
+          className="photo-modal"
+          style={{
+            top: window.scrollY,
+            left: 0,
+            right: 0,
+            height: window.innerHeight,
+          }}
+        >
+          <div className="close" onClick={() => setShownPhoto(null)}>
+            X
+          </div>
+          <GatsbyImage
+            image={shownPhoto.data}
+            alt={shownPhoto.subtitle}
+            objectFit="contain"
+          />
+        </div>
+      )}
+    </>
   );
 }
 
