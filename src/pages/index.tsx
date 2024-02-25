@@ -42,7 +42,7 @@ export default function IndexPage() {
       </div>
       <div className="four-titles">
         <Link to="/software">Developer</Link>
-        <Link to="/photos">Photograph</Link>
+        <Link to="/reveries">Photograph</Link>
         <Link to="/software">Analyst</Link>
         <Link to="/software">Manager</Link>
       </div>
