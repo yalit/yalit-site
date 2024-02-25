@@ -1,5 +1,5 @@
 .four-images {
-  @apply grid grid-cols-1 gap-4 md:grid-cols-2 w-screen h-screen;
+  @apply grid grid-cols-1 gap-2 md:grid-cols-2 w-screen h-screen;
 
   img {
     @apply w-full h-full object-cover;
@@ -7,26 +7,10 @@
 }
 
 .four-titles {
-  @apply absolute inset-0 grid grid-cols-1 gap-4 md:grid-cols-2 w-screen h-screen;
+  @apply absolute inset-0 grid grid-cols-1 gap-2 md:grid-cols-2 w-screen h-screen;
 
   a {
-    @apply w-full h-full bg-black bg-opacity-50 flex text-white text-4xl p-4 items-center justify-center;
-
-    &:nth-child(1) {
-      @apply md:items-end md:justify-end;
-    }
-
-    &:nth-child(2) {
-      @apply md:items-end md:justify-start;
-    }
-
-    &:nth-child(3) {
-      @apply md:items-start md:justify-end;
-    }
-
-    &:nth-child(4) {
-      @apply md:items-start md:justify-start;
-    }
+    @apply w-full h-full bg-black bg-opacity-50 flex text-white text-4xl p-2 items-center justify-center;
 
     &:hover {
       @apply bg-opacity-20;

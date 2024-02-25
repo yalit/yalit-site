@@ -23,28 +23,10 @@ export default function IndexPage() {
           data-title="Developer"
           placeholder="blurred"
         />
-        <StaticImage
-          src="../images/index/analysis.jpg"
-          alt=""
-          width={1200}
-          className="top left"
-          data-title="Developer"
-          placeholder="blurred"
-        />
-        <StaticImage
-          src="../images/index/blocks_management.jpg"
-          alt=""
-          width={1200}
-          className="top left"
-          data-title="Developer"
-          placeholder="blurred"
-        />
       </div>
       <div className="four-titles">
-        <Link to="/software">Developer</Link>
-        <Link to="/reveries">Photograph</Link>
-        <Link to="/software">Analyst</Link>
-        <Link to="/software">Manager</Link>
+        <Link to="/software">Software Craftman</Link>
+        <Link to="/reveries">Photography (Rêveries)</Link>
       </div>
     </>
   );
