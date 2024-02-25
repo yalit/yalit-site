@@ -1,10 +1,10 @@
 import Layout from "../../components/layout";
 import React from "react";
 import { graphql } from "gatsby";
-import "../../styles/blog.scss";
 import BlogPostsList from "../../components/blog/BlogPostsList";
 import usePostsFromAllFile from "../../hooks/usePostsFromAllFile";
 import "../../styles/shared.scss";
+import "../../styles/blog.scss";
 
 export type BlogPostNode = {
   childMarkdownRemark: {

@@ -2,6 +2,7 @@ import { Link } from "gatsby";
 import React, { ReactNode } from "react";
 import { StaticImage } from "gatsby-plugin-image";
 import "../styles/layout.scss";
+import { reveriesBasePath } from "../pages/reveries";
 
 type NavLinkType = { display: ReactNode; link: string };
 const navLinks: NavLinkType[] = [
@@ -21,7 +22,7 @@ const navLinks: NavLinkType[] = [
   { display: "Software", link: "/software" },
   { display: "Blog", link: "/blog" },
   { display: "Projects", link: "/projects" },
-  { display: "Photos", link: "/photos" },
+  { display: "Rêveries", link: reveriesBasePath },
   { display: "Contact", link: "/contact" },
 ];
 
