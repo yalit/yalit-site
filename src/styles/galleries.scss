@@ -29,3 +29,59 @@
     }
   }
 }
+
+.gallery-page {
+  @apply px-3;
+  font-family: "Lato", "HelveticaNeue-Light", "Helvetica Neue Light",
+    "Helvetica Neue", Helvetica, arial, sans-serif;
+
+  .gallery-title {
+    @apply mb-3;
+
+    .title {
+      @apply text-2xl font-bold uppercase;
+    }
+    .subtitle {
+      @apply text-sm text-gray-600;
+    }
+  }
+
+  .gallery-info {
+    @apply flex items-start justify-start gap-9 mb-6;
+    .info-title {
+      @apply text-sm font-[600] uppercase pl-2 border-l-4 border-black;
+    }
+    .info-content {
+      @apply text-sm pl-2 text-gray-600;
+    }
+  }
+
+  .gallery-photos {
+    @apply grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4;
+
+    .photos-column {
+      .photo {
+        @apply relative mb-4 cursor-pointer;
+        img {
+          @apply rounded-md;
+        }
+        .photo-info {
+          @apply pl-1 text-sm text-gray-600 border-l-2 border-gray-600 mt-2;
+        }
+      }
+    }
+  }
+
+  .photo-modal {
+    @apply fixed p-4 bg-black bg-opacity-90 w-screen flex items-center justify-center;
+    .close {
+      @apply absolute z-[1000] top-4 right-4 text-white text-xl cursor-pointer;
+    }
+    .gatsby-image-wrapper {
+      @apply rounded-md w-full h-full overflow-hidden;
+      img {
+        @apply rounded-md;
+      }
+    }
+  }
+}

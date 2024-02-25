@@ -1,9 +1,10 @@
+order: 1
 path: /nature-in-manurois
 title: Nature in Namurois
 subtitle: Some nature stills and W&B Shots
 idea: Small walk in the countryside
 tags: [nature, moody, Black&White, Natura2000]
-category: Creative/Nature
+categories: [Creative, Nature]
 location: Gembloux | Belgium
 year: 2021
 frontphoto: "./images/nature-namur/001.jpg"

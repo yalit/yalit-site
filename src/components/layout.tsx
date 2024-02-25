@@ -3,6 +3,7 @@ import React, { ReactNode } from "react";
 import { StaticImage } from "gatsby-plugin-image";
 import "../styles/layout.scss";
 import { reveriesBasePath } from "../pages/reveries";
+import classnames from "../helpers/classnames";
 
 type NavLinkType = { display: ReactNode; link: string };
 const navLinks: NavLinkType[] = [
@@ -26,9 +27,16 @@ const navLinks: NavLinkType[] = [
   { display: "Contact", link: "/contact" },
 ];
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout({
+  children,
+  containerClassName = "",
+}: {
+  children: React.ReactNode;
+  containerClassName?: string;
+}) {
+  const containerClassNames = classnames("container", containerClassName);
   return (
-    <div className="container">
+    <div className={containerClassNames}>
       <header className="header">
         <nav>
           <div className="flex-1"></div>

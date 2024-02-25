@@ -1,9 +1,10 @@
+order: 2
 path: /liege-cite-miroir
 title: Liège - Cité Miroir
 subtitle: Architectural landscape in Liège - an old swimming pool
 idea: Internal old vs new architecture
 tags: [Architecture, Old colors, Re-use]
-category: Creative
+categories: [Creative]
 location: Liège | Belgium
 year: 2021
 frontphoto: "./images/liege-cite-miroir/001.jpg"
