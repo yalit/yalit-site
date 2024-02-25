@@ -55,6 +55,14 @@ const config: GatsbyConfig = {
       __key: "images",
     },
     {
+      resolve: "gatsby-source-filesystem",
+      options: {
+        name: "galleries_images",
+        path: "./src/photos/galleries/images/",
+      },
+      __key: "galleries_images",
+    },
+    {
       resolve: `gatsby-transformer-remark`,
       options: {
         plugins: [
@@ -82,6 +90,13 @@ const config: GatsbyConfig = {
             },
           },
         ],
+      },
+    },
+    `gatsby-transformer-yaml`,
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: `./src/photos/`,
       },
     },
   ],

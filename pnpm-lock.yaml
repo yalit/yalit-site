@@ -47,6 +47,12 @@ dependencies:
   gatsby-transformer-sharp:
     specifier: ^5.13.1
     version: 5.13.1(gatsby-plugin-sharp@5.13.1)(gatsby@5.13.3)(graphql@16.8.1)
+  gatsby-transformer-yaml:
+    specifier: ^5.13.1
+    version: 5.13.1(gatsby@5.13.3)
+  js-yaml:
+    specifier: ^4.1.0
+    version: 4.1.0
   postcss:
     specifier: ^8.4.35
     version: 8.4.35
@@ -6629,6 +6635,18 @@ packages:
     transitivePeerDependencies:
       - graphql
       - supports-color
+    dev: false
+
+  /gatsby-transformer-yaml@5.13.1(gatsby@5.13.3):
+    resolution: {integrity: sha512-Abl5Ls2WjiJ+02plPaRnyZN/KmTns38EO+wcQiAhPo/4z0L2t013GUyuYAJzAkSfBSb9umdqEFfElPA2/DuqhQ==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      gatsby: ^5.0.0-next
+    dependencies:
+      '@babel/runtime': 7.23.9
+      gatsby: 5.13.3(babel-eslint@10.1.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)
+      js-yaml: 4.1.0
+      lodash: 4.17.21
     dev: false
 
   /gatsby-worker@2.13.1:
