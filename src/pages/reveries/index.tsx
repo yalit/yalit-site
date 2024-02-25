@@ -2,7 +2,7 @@ import React from "react";
 import Layout from "../../components/layout";
 import { Link, graphql } from "gatsby";
 import { GatsbyImage, IGatsbyImageData, getImage } from "gatsby-plugin-image";
-import "../../styles/photos.scss";
+import "../../styles/galleries.scss";
 
 interface PhotoGallery {
   id: string;

@@ -6,9 +6,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions;
 
   const tagTemplate = path.resolve(`./src/pages/blog/tags/index.tsx`);
-  const galleryTemplate = path.resolve(
-    `./src/pages${reveriesBasePath}/gallery.tsx`,
-  );
+  const galleryTemplate = path.resolve(`./src/pages/reveries/gallery.tsx`);
 
   const result = await graphql(`
     {
@@ -52,7 +50,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   // Make gallery pages
   galleries.forEach(({ node }) => {
     createPage({
-      path: `${reveriesBasePath}${node.path}`,
+      path: `/reveries${node.path}`,
       component: galleryTemplate,
       context: {
         id: node.id,
