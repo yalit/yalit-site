@@ -45,7 +45,7 @@
 }
 
 .post-container {
-  @apply mx-auto w-full max-w-3xl lg:px-8;
+  @apply mx-auto w-full max-w-3xl px-4 lg:px-8;
   .date {
     @apply order-first flex items-center text-base text-zinc-400;
   }
