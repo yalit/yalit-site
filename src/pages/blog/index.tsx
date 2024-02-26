@@ -33,8 +33,12 @@ const BlogPosts = ({ data }: BlogPostsProps) => {
       <div className="px-8">
         <div className="summary">
           <div className="title">
-            <p>A place to share my thoughts</p>
-            <p className="ml-8">Un endroit pour partager mes pensées</p>
+            <p>Some notes and thoughts</p>
+          </div>
+          <div className="description">
+            A place where I want to share some of my thoughts, ideas,
+            experiences and also some technical bits. I hope you'll find
+            something useful here.
           </div>
         </div>
         <BlogPostsList posts={posts} />

@@ -20,7 +20,7 @@ One of the elements that I want to be able to fake are **users**. Unfortunately,
 So, I could to the following:
 
 1. I could use plain passwords. I’m only in dev and test, but the issue is that during the testing, I’ll try to connect and I’ll fall against the Security wall where Symfony will try to hash my input password against the stored password and so will fail
-2. could define it by hand in the fixtures.yaml file of Hautelook/Alice. It could work regarding the above issue, but I would have to look at it by hand (there is console command to do that…) and I do want to find a structural way to do it
+2. could define it by hand in the fixtures.yaml file of Hautelook/Alice. It could work regarding the above issue, but I would have to lok at it by hand (there is console command to do that…) and I do want to find a structural way to do it
 3. I could use the [Custom Faker Providers](https://github.com/hautelook/AliceBundle/blob/master/doc/faker-providers.md) functionality of Alice bundle. That’s what I’m describing below
 
 I'll dive into the option 3 below as It’s quite easy actually, you only need to follow the following [Custom Faker Provider](https://github.com/hautelook/AliceBundle/blob/master/doc/faker-providers.mdhttps://github.com/hautelook/AliceBundle/blob/master/doc/faker-providers.md) page.
