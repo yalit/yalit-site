@@ -2,7 +2,7 @@
 title: Symfony & EasyAdmin – space for extra functionalities
 slug: symfony-easyadmin-space-for-extra-functionalities
 date: 2022-04-07
-tags: [Symfony, EasyAdmin, custom]
+tags: [Symfony, EasyAdmin, custom-easy-admin]
 img_hero: ./hero.jpg
 img_hero_alt: crop fields in the spring
 img_hero_credit: Yannick (Rêveries)

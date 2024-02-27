@@ -2,9 +2,144 @@
 title: Custom EasyAdmin – Only Admins can update Users
 slug: only-admins-can-update-users
 date: 2022-04-14
-tags: [Symfony, EasyAdmin, custom, voters, roles, actions]
+tags: [Symfony, EasyAdmin, custom-easy-admin, voters, roles, actions]
 img_hero: ./hero.jpg
 img_hero_alt: crop fields in the spring
 img_hero_credit: Yannick (Rêveries)
 summary: As a first update of the Admin, let’s tackle the least original of all... handling Users… Not any logged in users should be able to update any users, more none of them should be allowed to do anything to any users, so let’s try to restrict the potential actions on our Users only to the Admins of the application.
 ---
+
+> This article is part of a series of Article around the customization of EasyAdmin within Symfony. You can find the list of [related articles](/blog/tags/custom-easy-admin) and the context of it in this article : [Symfony & EasyAdmin – space for extra functionalities](/blog/symfony-easyadmin-space-for-extra-functionalities)
+
+### Introduction
+
+As a first update of the Admin, let’s tackle the least original of all : handling Users… Not any logged in users should be able to update any users, more none of them should be allowed to do anything to any users, so let’s try to restrict the potential actions on our Users only to the Admins of the application.
+
+### Impacted functionalities
+
+The functionality that is in display here is how to update the security on [specific actions in EasyAdmin](https://symfony.com/bundles/EasyAdminBundle/current/actions.html).
+
+Especially, we’ll want to restrict the usage of them by using [Permissions](https://symfony.com/bundles/EasyAdminBundle/current/actions.html#restricting-actions).
+
+![Natura 2000 in Gembloux](./natura.jpg)
+
+<p style="text-align: center; margin-top: -25px; color: #777">Restrictions, you said???</p>
+
+### Concretely
+
+Let’s start at the beginning. As per the base configuration, a [CRUDController](https://symfony.com/doc/current/EasyAdminBundle/crud.html) is setup for each Entity we want to handle in the system, so let’s dive into the UserCRUDController already setup in our application:
+
+```php
+//src/Controller/EasyAdmin/UserCrudController.php
+
+class UserCrudController extends AbstractCrudController
+{
+    public static function getEntityFqcn(): string
+    {
+        return User::class; //(1)
+    }
+
+    public function configureFields(string $pageName): iterable //(2)
+    {
+        yield IdField::new('id')->onlyOnDetail();
+        yield AvatarField::new('email')->setIsGravatarEmail()->hideOnForm();
+        yield TextField::new('fullName');
+        yield TextField::new('username');
+        yield EmailField::new('email');
+        yield ChoiceField::new('roles')
+            ->setChoices(UserRoles::getAllRoles())
+        ;
+    }
+}
+```
+
+This is a simple class, linking this CRUDController to the User Entity (1) and defining some fields (2) to be used for display in the different views of EasyAdmin (Index, Show, New & Update).
+
+### Let's change some actions
+
+#### Which actions ?
+
+In EasyAdmin, you have 4 CRUD actions that are defined by default:
+
+1. **Index**: to list all the entities
+2. **Show**: to display the details of an entity
+3. **New**: to create a new entity (that will trigger a form for the entity)
+4. **Edit**: to update an entity (that will trigger a form for the entity)
+
+The actions names used in the configuration are defined as constants in the class [Action](https://github.com/EasyCorp/EasyAdminBundle/blob/4.x/src/Config/Action.php)
+
+### How to
+
+To update the actions behaviour, EasyAdmin provides a useful function in its AbstractCRUDController which is named : `configureActions` that allows you to define the actions that are available for a specific entity.
+
+This little function taking a set of Actions in params and which returns a set of Actions, allows to update the defined actions in that CRUDController.
+
+Let’s see what we did to it here:
+
+```php
+//src/Controller/EasyAdmin/UserCrudController.php
+
+public function configureActions(Actions $actions): Actions
+    {
+        $actions = parent::configureActions($actions);
+
+        $actions
+            // Set the permissions for more than 1 action at a time ==> overwrites all the existing permissions
+            ->setPermissions([
+                Action::EDIT => UserVoter::EDIT, // Use of a standard Symfony Voter
+                Action::DELETE => UserRoles::ROLE_ADMIN // Use of a global Symfony Role
+            ])
+            //Setting the permission uniquely for one single action
+            //(can't be used before the setPermissions as setPermissions - above - overwrites everything)
+            ->setPermission(Action::NEW, UserRoles::ROLE_ADMIN)
+        ;
+
+        return $actions;
+    }
+```
+
+### One or multiple, you can choose !
+
+2 options are offered:
+
+- or modifying the permissions of one action at a time (like we did for the **NEW** action)
+
+```php
+setPermission(string $actionName, string $permission)
+```
+
+- or modifying the permissions of all actions at a time
+
+```php
+setPermissions([$actionName => $permission, ...])
+```
+
+> <span style="">**IMPORTANT**</span> : <span style="text-decoration: underline">setPermissions</span> replaces <span style="text-decoration: underline">**completely**</span> all the permissions of all the actions so to be used first if used jointly with the single <span style="text-decoration: underline">setPermission</span>
+
+### Which permissions ?
+
+EasyAdmin is completely linked to the Symfony ecosystem and so we have the ability to use the standard [Access Control](https://symfony.com/doc/current/security.html#access-control-authorization) of the framework.
+
+Above we used 2 different types of permissions:
+
+1. using the ROLES of a User. In my application, I’ve defined the list of the Roles in a UserRoles class (not yet 8.1 – so no Enums yet ;-)).
+
+   Here, I’m using the admin role, used throughout the application, which will trigger the standard voter (used below on the New Action) :
+
+```php
+setPermission(Action::NEW, UserRoles::ROLE_ADMIN)
+```
+
+2. using a [custom Symfony Voter](https://symfony.com/doc/current/security/voters.html) like the following in the setPermissions above for the Edit action:
+
+```php
+setPermissions([Action::EDIT => UserVoter::EDIT, ...])
+```
+
+With those additions, the actions of CRUD will appear only for the Admin users and not for the other ones.
+
+I hope you enjoyed these first examples, let’s wait for the future ones… it’s in progress… ;-)
+
+> [REPOSITORY](https://github.com/yalit/custom-easy-admin) : the code of this example is available in the branch [01.only_admin_can_update_users](https://github.com/yalit/custom-easy-admin/blob/01.only_admin_can_update_users/src/Controller/EasyAdmin/PostCrudController.php)
+
+> All pictures of this article are of the making of the author and some can be seen here : [Rêveries](/reveries)
