@@ -1,0 +1,67 @@
+---
+title: Allow references between 2 components – React
+slug: references-between-2-components
+date: 2020-10-28
+tags: [React, component, reference, eventHandling]
+img_hero: ./hero.jpg
+img_hero_alt: Header
+img_hero_credit: Y. Alsberge
+summary: In React, you need to be able to reference one component from another. This is how I managed to do it.
+---
+
+### Introduction
+
+For a project, I was trying to have 2 different components interact with each other. Concretely, I had 2 date pickers and I wanted to ensure only one was open at a time…\
+The way to do it was to ensure that on the opening of one, I was closing the other one.
+
+### Context and Target
+
+The context and target is then the following:
+
+```jsx
+...
+<DatePicker id={1} onDisplay={closeAllOtherDayPickers}>
+<DatePicker id={2} onDisplay={closeAllOtherDayPickers}>
+...
+```
+
+### Problem
+
+Being new to React, I was trying to reference one component to the other using variables declaring the components such as:
+
+```jsx
+...
+let datePicker1 = <DatePicker onDisplay={() => closeDatePicker(datePicker1)}>
+let datePicker2 = <DatePicker onDisplay={() => closeDatePicker(datePicker1)}>
+...
+return ( //I'm in a function component
+    ...
+    {datePicker1}
+    {datePicker2}
+    ...
+)
+```
+
+Unfortunately, it was not working…
+
+### Solution
+
+I eventually found my salvation in **refs** (see [React refs](https://reactjs.org/docs/refs-and-the-dom.html)).\
+By using those refs, I was able to generate a reference to the other component and be able to act on it from the first component.
+
+It went eventually like this:
+
+```jsx
+...
+let refDatePicker1 = useRef();
+let refDatePicker2 = useRef();
+...
+return( //I'm in a function component
+...
+    <DatePicker ref={refDatePicker1} onDisplay={() => closeDatePicker(refDatePicker2)}>
+    <DatePicker ref={refDatePicker2} onDisplay={() => closeDatePicker(refDatePicker1)}>
+...
+)
+```
+
+I know it’s optimizable but for a first attempt, it introduces me to the ref for me to manage to get out of my issue.

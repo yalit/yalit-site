@@ -1,0 +1,181 @@
+---
+title: Custom EasyAdmin – Thou shall rule the Posts Listing (1) – Fields customization
+slug: custom-easyadmin-thou-shall-rule-the-posts-listing-1-fields-customization
+date: 2022-05-02
+tags: [Symfony, EasyAdmin, custom-easy-admin, fields]
+img_hero: ./hero.jpeg
+img_hero_alt: boxes within box in nature
+img_hero_credit: Yannick (Rêveries)
+summary: Let’s continue our dive into the customization of Easy Admin linked to Symfony. We’ve looked at update security on specific actions on the listing/index page. Here, we want to continue exploring the listing and its customizations. In this first, out of three posts here, we’ll concentrate ourselves on how to customize the rendering of the data in the listing.
+---
+
+> This article is part of a series of Article around the customization of EasyAdmin within Symfony. You can find the list of [related articles](/blog/tags/custom-easy-admin) and the context of it in this article : [Symfony & EasyAdmin – space for extra functionalities](/blog/symfony-easyadmin-space-for-extra-functionalities)
+
+### Introduction
+
+Let’s continue our dive into the customization of Easy Admin linked to Symfony. We’ve looked to [update the security on specific actions on the listing/index page](/blog/only-admins-can-update-users). Here, we want to continue exploring the listing and its customizations.
+In this first, out of three posts here, we’ll concentrate ourselves on how to customize the rendering of the data in the listing.
+
+### Impacted functionalities
+
+To allow the customization of the data display in our listing, we’ll need to look at the following functionalities of [EasyAdmin](https://symfony.com/bundles/EasyAdminBundle/current/index.html)
+
+- [Unmapped fields on index](#unmapped-fields)
+- [Custom fields on index](#custom-fields)
+
+![Night Sky with Nebula](./sky.jpg)
+
+## <a name="unmapped-fields"></a>Unmapped fields
+
+On the Post entity, there is a date for each status, being the date on which the Post arrived in that state. So, there is a date for the creation (draft), a date for the push in review, a date for the Publishing and a date for the Cancellation (in case of).
+
+In the table, it would be a mess to have one column for each date, so the goal is to have 1 column for the date of the current status, let’s call it : **Status Date**. The issue is that this field is not existing like that in our entity Post, hence we need to use an [unmapped Field](https://symfony.com/bundles/EasyAdminBundle/current/fields.html#unmapped-fields).
+
+#### In the CRUD Controller
+
+This is how it’s done in the CRUD Controller
+
+```php
+class PostCrudController extends AbstractCrudController
+{
+    public function configureFields(string $pageName): iterable
+    {
+        yield IdField::new('id')->hideOnForm();
+        ...
+        // let's define here our new field linked a non-field in our entity
+        yield DateTimeField::new('statusDate', 'Status Date')
+            // here let's configure it with standard EasyAdmin Field options
+            ->setFormat(self::STATUS_DATE_FORMAT)
+        ;
+        ...
+    }
+}
+```
+
+As you can see, we do the same as for a “normal” entity field by declaring a new field with a custom property name (here: statusDate). We can even declare options to that field as it is using behind the standard EasyAdmin Field.
+
+#### Application update
+
+With only that modification, we would have an issue as EasyAdmin would not find the data in our Post class, so we need to update the application a little bit by modifying our entity as the following :
+
+````php
+```php
+class Post
+{
+    ...
+    public function getStatusDate(): \DateTimeImmutable
+    {
+        switch ($this->status){
+            case PostWorkflow::STATUS_DRAFT:
+                return $this->createdAt;
+            case PostWorkflow::STATUS_IN_REVIEW:
+                return $this->inReviewAt;
+            case PostWorkflow::STATUS_PUBLISHED:
+                return $this->publishedAt;
+            case PostWorkflow::STATUS_CANCELLED:
+                return $this->cancelledAt;
+        }
+    }
+    ...
+}
+````
+
+As you can see, it’s as easy as declaring a “getter” as you would do with any field in our entity to allow EasyAdmin to fetch the data from it. Just ensure that the return type of your getter match the type of your EasyAdmin Field and you’re good to go.
+
+<p style="text-align: center; font-style: italic">“As easy as that…. Nice!!! but I see no “hideOnForm” or “onlyOnIndex”… What about the forms?”</p>
+
+Indeed… the “magic” of EasyAdmin is there to help us…. As there is no “setter” in our Post entity for the statusDate, it understand automatically that there is no need to add it to any form… So, neither the new nor the edit will provide this field to be populated…
+
+> **IMPORTANT** : as stated in the documentation, an **unmapped field is not sortable** as not existing as a database column.
+
+![green field below a blue sky](./field.jpg)
+
+## <a name="custom-fields"></a> Custom Field
+
+Linked to the status date, we do have an issue with the display of the status itself… The exact value in DB is something link post.status.draft… not very user friendly.
+This value is to allow any translation to benefit from a trans-locale value on the status… But currently, if we use the EasyAdmin [TextField](https://symfony.com/bundles/EasyAdminBundle/current/fields/TextField.html), it will not display the translated content but well the raw value from the DB.
+
+Indeed, if we look in the code of the template for that field we see that there are no translation made on the value of the field.
+
+```twig
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{# @var field \EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto #}
+{# @var entity \EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto #}
+{% if ea.crud.currentAction == 'detail' %}
+    <span title="{{ field.value }}">{{ field.formattedValue|raw|nl2br }}</span>
+{% else %}
+    <span title="{{ field.value }}">{{ field.formattedValue|raw }}</span>
+{% endif %}
+```
+
+### CRUD Controller
+
+The solution here is to declare our own custom Field. So, let's create it first:
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Controller\EasyAdmin\Fields;
+
+use EasyCorp\Bundle\EasyAdminBundle\Contracts\Field\FieldInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+
+/**
+ * Custom Field to allow for the translation of a Text Field
+ */
+class TranslatedTextField implements FieldInterface
+{
+    use FieldTrait;
+
+    public static function new(string $propertyName, ?string $label = null): TextField
+    {
+        // Simple decoration of the TextField by specifying a custom template
+        // in which I used the translator on the field value
+        return (TextField::new($propertyName, $label))
+            ->setTemplatePath('easyadmin/field/translated_text.html.twig')
+            ;
+    }
+}
+```
+
+No real specifics here, we just decorated a TextField (as it has the behaviour in terms of data handling that we want) but we declare a specific template for it where we’ll update the way to display the data like so
+
+```twig
+{# 'templates/easyadmin/field/translated-text.html.twig' #}
+
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{# @var field \EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto #}
+{# @var entity \EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto #}
+{% if ea.crud.currentAction == 'detail' %}
+    <span title="{{ field.value }}">{{ field.formattedValue|raw|trans|nl2br }}</span>
+{% else %}
+    <span title="{{ field.value }}">{{ field.formattedValue|raw|trans }}</span>
+{% endif %}
+```
+
+Following that, we just need to use it in our CRUD Controller like so :
+
+```php
+class PostCrudController extends AbstractCrudController
+{
+    public function configureFields(string $pageName): iterable
+    {
+        yield IdField::new('id')->hideOnForm();
+        ...
+        // Set up a custom field for the display of the status on the index
+        yield TranslatedTextField::new('status')->hideOnForm();
+        ...
+    }
+}
+```
+
+As you can see, nothing more than any other field already defined but using our brand new shiny Custom Field.
+
+I hope this was helpful for you, thanks for the read until here and see you soon for the part 2 of the Listing customization !
+
+> [REPOSITORY](https://github.com/yalit/custom-easy-admin) : the code of this example is available in the branch [02.Post_Workflow_Listing](https://github.com/yalit/custom-easy-admin/tree/02.Post_Workflow_Listing)
+
+> All pictures of this article are of the making of the author and some can be seen here : [Rêveries](/reveries)

@@ -23,7 +23,7 @@ const TaggedBlogPosts = ({ pageContext, data }: TaggedBlogPostsProps) => {
   return (
     <Layout>
       <div className="px-8">
-        <div className={summary}>
+        <div className="summary">
           <div className="title">
             <p>All articles for : {pageContext.tag}</p>
           </div>
