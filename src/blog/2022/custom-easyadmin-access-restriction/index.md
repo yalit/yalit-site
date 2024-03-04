@@ -111,6 +111,6 @@ class PostVoter extends Voter
 
 Here, nothing fancy, as per the [Voter functionality](https://symfony.com/doc/current/security/voters.html), we build here a PostVoter that will determine access to the Posts for specific attributes
 
-> [REPOSITORY](https://github.com/yalit/custom-easy-admin) : the code of this example is available in the branch [01.only_admin_can_update_users](https://github.com/yalit/custom-easy-admin/blob/01.only_admin_can_update_users/src/Controller/EasyAdmin/PostCrudController.php)
+> [REPOSITORY](https://github.com/yalit/custom-easy-admin) : the code of this example is available in the branch [02.Post_Workflow_Listing](https://github.com/yalit/custom-easy-admin/tree/02.Post_Workflow_Listing)
 
 > All pictures of this article are of the making of the author and some can be seen here : [Rêveries](/reveries)
