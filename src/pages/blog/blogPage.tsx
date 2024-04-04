@@ -1,31 +1,33 @@
 import React from "react";
 import Layout from "../../components/layout";
+import { Image } from "../../components/Image";
 import { Link, graphql } from "gatsby";
 import { GatsbyImage, IGatsbyImageData, getImage } from "gatsby-plugin-image";
 
 import "../../styles/blog.scss";
+import { MDXProvider } from "@mdx-js/react";
+
+const shortcodes = { Link, Image };
 
 type BlogPostDetails = {
   id: string;
   title: string;
   date: string;
   tags: string[];
-  html: string;
+  body: string;
   excerpt: string;
   img_hero: IGatsbyImageData;
   img_hero_alt: string;
   img_hero_credit: string;
 };
 
-export default function BlogPost({ data }) {
+export default function BlogPost({ data, children }) {
   const blog: BlogPostDetails = {
-    id: data.markdownRemark.id,
-    html: data.markdownRemark.html,
-    ...data.markdownRemark.frontmatter,
-    img_hero: getImage(data.markdownRemark.frontmatter.img_hero),
+    id: data.mdx.id,
+    html: data.mdx.internal.content,
+    ...data.mdx.frontmatter,
+    img_hero: getImage(data.mdx.frontmatter.img_hero),
   };
-
-  console.log(data);
 
   return (
     <Layout>
@@ -51,7 +53,7 @@ export default function BlogPost({ data }) {
           </div>
         )}
         <div className="title">{blog.title}</div>
-        <div dangerouslySetInnerHTML={{ __html: blog.html }} />
+        <MDXProvider components={shortcodes}>{children}</MDXProvider>
       </div>
     </Layout>
   );
@@ -59,9 +61,12 @@ export default function BlogPost({ data }) {
 
 export const query = graphql`
   query ($id: String) {
-    markdownRemark(id: { eq: $id }) {
-      html
+    mdx(id: { eq: $id }) {
+      body
       id
+      internal {
+        content
+      }
       frontmatter {
         date(formatString: "D-MMM-YYYY")
         slug
@@ -74,14 +79,6 @@ export const query = graphql`
         }
         img_hero_alt
         img_hero_credit
-      }
-    }
-    allMarkdownRemark(sort: { frontmatter: { date: DESC } }) {
-      nodes {
-        id
-        frontmatter {
-          date
-        }
       }
     }
   }

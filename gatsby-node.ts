@@ -4,15 +4,51 @@ const path = require("path");
 
 exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions;
+  createMdxBlogPage(graphql, createPage, reporter);
   createTagPages(graphql, createPage, reporter);
   createGalleryRelatedPages(graphql, createPage, reporter);
+};
+
+const createMdxBlogPage = async (graphql, createPage, reporter) => {
+  const result = await graphql(`
+    query {
+      allMdx {
+        nodes {
+          id
+          frontmatter {
+            slug
+          }
+          internal {
+            contentFilePath
+          }
+        }
+      }
+    }
+  `);
+
+  if (result.errors) {
+    reporter.panicOnBuild("Error loading MDX result", result.errors);
+  }
+
+  // Create blog post pages.
+  const posts = result.data.allMdx.nodes;
+  const postTemplate = path.resolve(`./src/pages/blog/blogPage.tsx`);
+
+  posts.forEach((node) => {
+    createPage({
+      path: `/blog/${node.frontmatter.slug}`,
+      // Provide the path to the MDX content file so webpack can pick it up and transform it into JSX
+      component: `${postTemplate}?__contentFilePath=${node.internal.contentFilePath}`,
+      context: { id: node.id },
+    });
+  });
 };
 
 const createTagPages = async (graphql, createPage, reporter) => {
   const tagTemplate = path.resolve(`./src/pages/blog/tags/index.tsx`);
   const result = await graphql(`
     {
-      tagsGroup: allMarkdownRemark(limit: 2000) {
+      tagsGroup: allMdx(limit: 2000) {
         group(field: { frontmatter: { tags: SELECT } }) {
           fieldValue
         }

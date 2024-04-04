@@ -7,27 +7,25 @@ import "../../styles/shared.scss";
 import "../../styles/blog.scss";
 
 export type BlogPostNode = {
-  childMarkdownRemark: {
-    id: string;
-    frontmatter: {
-      title: string;
-      slug: string;
-      summary: string;
-      date: string;
-    };
+  id: string;
+  frontmatter: {
+    title: string;
+    slug: string;
+    summary: string;
+    date: string;
   };
 };
 
 type BlogPostsProps = {
   data: {
-    allFile: {
+    allMdx: {
       nodes: BlogPostNode[];
     };
   };
 };
 
 const BlogPosts = ({ data }: BlogPostsProps) => {
-  const posts = usePostsFromAllFile(data.allFile.nodes);
+  const posts = usePostsFromAllFile(data.allMdx.nodes);
   return (
     <Layout>
       <div className="px-8">
@@ -51,20 +49,15 @@ export default BlogPosts;
 
 export const query = graphql`
   query BlogPage {
-    allFile(
-      filter: { sourceInstanceName: { eq: "blog" }, extension: { eq: "md" } }
-      sort: { childMarkdownRemark: { frontmatter: { date: DESC } } }
-    ) {
+    allMdx(sort: { frontmatter: { date: DESC } }) {
       nodes {
-        childMarkdownRemark {
-          frontmatter {
-            slug
-            title
-            summary
-            date(formatString: "MMMM DD, YYYY")
-          }
-          id
+        frontmatter {
+          slug
+          title
+          summary
+          date(formatString: "MMMM DD, YYYY")
         }
+        id
       }
     }
   }

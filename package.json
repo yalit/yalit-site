@@ -13,13 +13,19 @@
     "build": "gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --ext md,mdx"
   },
   "dependencies": {
+    "@mdx-js/react": "^3.0.1",
     "autoprefixer": "^10.4.17",
+    "eslint": "^8.57.0",
+    "eslint-plugin-mdx": "^3.1.5",
     "gatsby": "^5.13.3",
     "gatsby-plugin-image": "^3.13.1",
     "gatsby-plugin-manifest": "^5.13.1",
+    "gatsby-plugin-mdx": "^5.13.1",
+    "gatsby-plugin-mdx-frontmatter": "^0.0.4",
     "gatsby-plugin-postcss": "^6.13.1",
     "gatsby-plugin-sass": "^6.13.1",
     "gatsby-plugin-sharp": "^5.13.1",

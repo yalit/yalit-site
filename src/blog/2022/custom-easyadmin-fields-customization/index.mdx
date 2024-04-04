@@ -82,7 +82,7 @@ class Post
 
 As you can see, it’s as easy as declaring a “getter” as you would do with any field in our entity to allow EasyAdmin to fetch the data from it. Just ensure that the return type of your getter match the type of your EasyAdmin Field and you’re good to go.
 
-<p style="text-align: center; font-style: italic">“As easy as that…. Nice!!! but I see no “hideOnForm” or “onlyOnIndex”… What about the forms?”</p>
+<p style={{textAlign: "center", fontStyle: "italic"}}>“As easy as that…. Nice!!! but I see no “hideOnForm” or “onlyOnIndex”… What about the forms?”</p>
 
 Indeed… the “magic” of EasyAdmin is there to help us…. As there is no “setter” in our Post entity for the statusDate, it understand automatically that there is no need to add it to any form… So, neither the new nor the edit will provide this field to be populated…
 
