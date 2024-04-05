@@ -1,5 +1,5 @@
 ---
-title: Site portofolio personnel
+title: Site portfolio personnel
 slug: yalit-site
 date: 2024-01-01
 tags: [React, Gatsby, Tailwind, Markdown, GraphQL]
