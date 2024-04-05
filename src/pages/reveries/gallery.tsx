@@ -3,7 +3,7 @@ import { GatsbyImage, IGatsbyImageData, getImage } from "gatsby-plugin-image";
 import React, { useEffect, useState } from "react";
 import Layout from "../../components/layout";
 import "../../styles/galleries.scss";
-import { WindowSize, getWindowSize } from "../../helpers/window";
+import { WindowSize, getWindowSize, noWindowSize } from "../../helpers/window";
 
 interface GalleryPhoto {
   id: string;
@@ -24,10 +24,7 @@ interface Gallery {
 }
 
 export default function Gallery({ pageContext, data }) {
-  const [windowSize, setWindowSize] = useState<WindowSize>({
-    width: 0,
-    height: 0,
-  });
+  const [windowSize, setWindowSize] = useState<WindowSize>(noWindowSize);
   const [photos, setPhotos] = useState<GalleryPhoto[][]>([]);
   const [columnWidth, setColumnWidth] = useState<number>();
   const [shownPhoto, setShownPhoto] = useState<GalleryPhoto>(null);
@@ -42,6 +39,8 @@ export default function Gallery({ pageContext, data }) {
     function handleWindowResize() {
       setWindowSize(getWindowSize());
     }
+
+    handleWindowResize();
 
     window.addEventListener("resize", handleWindowResize);
 
