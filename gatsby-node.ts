@@ -1,6 +1,10 @@
-import { reveriesBasePath } from "./src/pages/reveries";
+import { withPrefix } from "gatsby";
 
 const path = require("path");
+
+global.__PATH_PREFIX__ = "";
+//add this line
+global.__BASE_PATH__ = "";
 
 exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions;
@@ -36,7 +40,7 @@ const createMdxBlogPage = async (graphql, createPage, reporter) => {
 
   posts.forEach((node) => {
     createPage({
-      path: `/blog/${node.frontmatter.slug}`,
+      path: withPrefix(`/blog/${node.frontmatter.slug}`),
       // Provide the path to the MDX content file so webpack can pick it up and transform it into JSX
       component: `${postTemplate}?__contentFilePath=${node.internal.contentFilePath}`,
       context: { id: node.id },
@@ -68,7 +72,7 @@ const createTagPages = async (graphql, createPage, reporter) => {
   // Make tag pages
   tags.forEach((tag) => {
     createPage({
-      path: `/blog/tags/${tag.fieldValue}/`,
+      path: withPrefix(`/blog/tags/${tag.fieldValue}/`),
       component: tagTemplate,
       context: {
         tag: tag.fieldValue,
@@ -116,7 +120,7 @@ const createGalleryRelatedPages = async (graphql, createPage, reporter) => {
       }
     });
     createPage({
-      path: `/reveries${node.path}`,
+      path: withPrefix(`/reveries${node.path}`),
       component: galleryTemplate,
       context: {
         id: node.id,
