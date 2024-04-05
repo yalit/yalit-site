@@ -1,6 +1,7 @@
 import type { GatsbyConfig } from "gatsby";
 
 const config: GatsbyConfig = {
+  pathPrefix: `/yalit-site`,
   siteMetadata: {
     title: `Yalit`,
     siteUrl: `https://www.yourdomain.tld`,
