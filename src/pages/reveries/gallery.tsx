@@ -1,6 +1,6 @@
 import { Link, graphql } from "gatsby";
 import { GatsbyImage, IGatsbyImageData, getImage } from "gatsby-plugin-image";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../components/layout";
 import "../../styles/galleries.scss";
 import { WindowSize, getWindowSize } from "../../helpers/window";
@@ -24,7 +24,10 @@ interface Gallery {
 }
 
 export default function Gallery({ pageContext, data }) {
-  const [windowSize, setWindowSize] = useState<WindowSize>(getWindowSize());
+  const [windowSize, setWindowSize] = useState<WindowSize>({
+    width: 0,
+    height: 0,
+  });
   const [photos, setPhotos] = useState<GalleryPhoto[][]>([]);
   const [columnWidth, setColumnWidth] = useState<number>();
   const [shownPhoto, setShownPhoto] = useState<GalleryPhoto>(null);
