@@ -1,13 +1,16 @@
 import React from "react";
 import Layout from "../../components/layout";
-import { Image } from "../../components/Image";
 import { Link, graphql } from "gatsby";
 import { GatsbyImage, IGatsbyImageData, getImage } from "gatsby-plugin-image";
 
 import "../../styles/blog.scss";
 import { MDXProvider } from "@mdx-js/react";
+import { CodeBlock } from "../../components/blog/CodeBlock";
 
-const shortcodes = { Link, Image };
+const mdxComponents = {
+  pre: (props) => <CodeBlock {...props} />,
+  wrapper: ({ children }) => <>{children}</>,
+};
 
 type BlogPostDetails = {
   id: string;
@@ -53,7 +56,7 @@ export default function BlogPost({ data, children }) {
           </div>
         )}
         <div className="title">{blog.title}</div>
-        <MDXProvider components={shortcodes}>{children}</MDXProvider>
+        <MDXProvider components={mdxComponents}>{children}</MDXProvider>
       </div>
     </Layout>
   );
