@@ -1,4 +1,4 @@
-import { Link, graphql } from "gatsby";
+import { Link, graphql, withPrefix } from "gatsby";
 import { GatsbyImage, IGatsbyImageData, getImage } from "gatsby-plugin-image";
 import React, { useEffect, useState } from "react";
 import Layout from "../../components/layout";
@@ -137,7 +137,7 @@ export default function Gallery({ pageContext, data }) {
               <div className="info-content">
                 {gallery.categories.map((category) => (
                   <div>
-                    <Link to={"/reveries/category/" + category}>
+                    <Link to={withPrefix("/reveries/category/" + category)}>
                       {category}
                     </Link>
                   </div>
