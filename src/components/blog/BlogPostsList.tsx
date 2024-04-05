@@ -1,4 +1,4 @@
-import { withPrefix } from "gatsby";
+import { Link, withPrefix } from "gatsby";
 import React from "react";
 
 export type BlogPost = {
@@ -18,7 +18,7 @@ export default function BlogPostsList({ posts }: BlogPostsListProps) {
     <div className="blog-posts">
       {posts.map((post) => {
         return (
-          <a href={withPrefix("/blog/" + post.slug)}>
+          <Link to={"/blog/" + post.slug}>
             <div key={post.id} className="post">
               <div className="post-date">
                 <p className="h-4 w-0.5 rounded-full bg-zinc-200"></p>
@@ -30,7 +30,7 @@ export default function BlogPostsList({ posts }: BlogPostsListProps) {
                 <div className="read-more">Read more...</div>
               </div>
             </div>
-          </a>
+          </Link>
         );
       })}
     </div>

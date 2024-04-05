@@ -47,10 +47,7 @@ export default function BlogPost({ data, children }) {
           <div className="tags">
             <span className="h-4 w-0.5 mr-2 rounded-full bg-zinc-200"></span>
             {blog.tags.map((tag, index) => (
-              <Link
-                to={withPrefix("/blog/tags/" + tag)}
-                key={"Link-Tag" + index}
-              >
+              <Link to={"/blog/tags/" + tag} key={"Link-Tag" + index}>
                 <span key={index} className="tag">
                   {tag}
                 </span>

@@ -137,7 +137,7 @@ export default function Gallery({ pageContext, data }) {
               <div className="info-content">
                 {gallery.categories.map((category) => (
                   <div>
-                    <Link to={withPrefix("/reveries/category/" + category)}>
+                    <Link to={"/reveries/category/" + category}>
                       {category}
                     </Link>
                   </div>
