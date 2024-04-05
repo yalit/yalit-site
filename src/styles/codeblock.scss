@@ -1,0 +1,31 @@
+.code-block {
+  position: relative;
+
+  .copy-button {
+    position: absolute;
+    top: 0;
+    right: 1rem;
+    background: #ffffff;
+    padding: 0.4rem 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    font-weight: bold;
+    font-size: 0.8rem;
+    text-align: center;
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 4rem;
+
+    p {
+      margin: 0 !important;
+    }
+
+    &.copied {
+      background: #7af2a6;
+      color: #000000;
+    }
+  }
+}
