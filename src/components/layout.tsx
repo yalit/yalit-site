@@ -34,7 +34,7 @@ export default function Layout({
   children: React.ReactNode;
   containerClassName?: string;
 }) {
-  const containerClassNames = classnames("container", containerClassName);
+  const containerClassNames = classnames("container-perso", containerClassName);
   return (
     <div className={containerClassNames}>
       <header className="header">

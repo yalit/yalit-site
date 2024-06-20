@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+// remodeling the container to remove the backdrop-filter which causes the position: fixed not to work for Lightbox
+.container-perso {
+    margin-left: auto;
+  margin-right: auto;
+  min-height: 100vh;
+  width: 100vw;
+  max-width: 80rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  --tw-shadow-color: rgb(39 39 42 / 0.05);
+  --tw-shadow: var(--tw-shadow-colored);
+  --tw-backdrop-blur: blur(8px);
+}

@@ -86,6 +86,7 @@ export default function Projects({ data }: PageProps<ProjectsPageQuery>) {
                         <button
                             className={tagClassName(tag)}
                             onClick={() => onClickTag(tag)}
+                            key={"dataTag-"+tag}
                         >
                             {tag}
                         </button>
