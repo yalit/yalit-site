@@ -5,16 +5,17 @@ import Lightbox from "../shared/Lightbox";
 
 export default function ProjectListProject({project}: {project: Project}) {
     return (
-        <div className="projectlist-project flex flex-wrap justify-between">
-            <div className="title w-full flex order-1 md:w-1/3 lg:w-1/5 justify-start items-center p-3 bg-gray-800 text-gray-50 font-semibold uppercase rounded-tl rounded-tr md:rounded-tl md:rounded-tr-none lg:rounded-tl lg:rounded-bl">
-                {project.title}
-            </div>
-            <div className="image w-full order-3 flex justify-center lg:flex-1 lg:order-2">
-                <Lightbox>
-                    <GatsbyImage image={project.thumbnail} alt={project.title} className="w-full rounded-b lg:rounded-none"/>
-                </Lightbox>
-            </div>
-            <div className="summary flex flex-col w-full order-2 md:w-2/3 lg:w-1/3 lg:order-3 justify-between p-3 border-gray-800 border-x-4 md:border-none">
+        <div className="projectlist-project flex flex-wrap justify-between basis-0">
+            <Lightbox 
+                className="title cursor-pointer w-full flex order-1 md:w-1/3 lg:w-1/5 justify-start items-center p-3 bg-gray-800 text-gray-50 font-semibold uppercase rounded-tl rounded-tr md:rounded-tl md:rounded-tr-none lg:rounded-tl md:rounded-bl"
+                content={<GatsbyImage image={project.thumbnail} alt={project.title} className="w-full rounded-b lg:rounded-none"/>}
+            >
+                    {project.title}
+            </Lightbox>
+            <Lightbox className="image hidden lg:flex flex-1 order-2 justify-center cursor-pointer">
+                <GatsbyImage image={project.thumbnail} alt={project.title} className="w-full rounded-b lg:rounded-none object-cover"/>
+            </Lightbox>
+            <div className="summary flex flex-col w-full h-full order-2 md:w-2/3 lg:w-1/3 lg:order-3 justify-between p-3">
                 <div className="summary__info mb-3">
                     <div className="summary__title mb-2 font-semibold text-xl text-gray-800 lg:border-gray-800 lg:border-l-4 lg:pl-2">Summary</div>
                     <div className="summary__content">{project.summary}</div>

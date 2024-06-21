@@ -1,17 +1,9 @@
 ---
-title: Application de Génération de Dossiers
+title: Test protocol generation pp
 slug: dossgen-app
 date: 2024-02-02
-tags: [PHP, Symfony, React, ApiPlatform]
+tags: [PHP, Symfony, React, ApiPlatform, EasyAdmin]
 repository: "https://github.com"
 thumbnail: './dossgen-app.jpg'
-summary: Petit projet pour générer des dossiers de manière automatique. Le but est de pouvoir générer des dossiers de manière automatique pour un projet. Le projet est écrit PHP et React basé sur Symfony et ApiPlatform pour l'échange des données entre front et back.
+summary: Client project enabling users to generate PDF file containing dedicated approved test protocols for specific products. It features an test protocols approval process linked to a PDF generation capability after test selection.
 ---
-
-# Génération de Dossiers
-
-Petit projet pour générer des dossiers de manière automatique. Le but est de pouvoir générer des dossiers de manière automatique pour un projet. Le projet est écrit en Python et utilise la librairie `PyQt5` pour l'interface graphique.
-
-```php
-function test(){}
-```

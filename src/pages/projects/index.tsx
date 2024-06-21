@@ -72,8 +72,7 @@ export default function Projects({ data }: PageProps<ProjectsPageQuery>) {
                 <div className="summary">
                     <div className="title">Some projects I've worked on</div>
                     <div className="description">
-                        Below are some of the projects I've worked on. Click on the title to
-                        read more about them.
+                        Below are some of the projects I've worked on. 
                     </div>
                 </div>
 

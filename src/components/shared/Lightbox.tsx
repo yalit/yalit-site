@@ -1,6 +1,11 @@
-import React, { PropsWithChildren, useEffect, useState }  from "react"
+import React, { PropsWithChildren, ReactNode, useEffect, useState }  from "react"
 
-export default function Lightbox({children}: PropsWithChildren) {
+interface LightboxProps extends PropsWithChildren {
+    content?: ReactNode,
+    className?: string
+}
+
+export default function Lightbox({children, content = null, className = ""}: LightboxProps) {
     const [enlighted, setEnlighted] = useState<boolean>(false)
 
     const switchOn = () => setEnlighted(true)
@@ -23,13 +28,13 @@ export default function Lightbox({children}: PropsWithChildren) {
     }, [enlighted])
     return (
         <>
-            <div onClick={switchOn}>
+            <div onClick={switchOn} className={className}>
                 {children}
             </div>
             {enlighted &&
                 <div className="lightbox fixed inset-x-0 top-0 h-screen bg-black/80 flex justify-center items-center z-[1000]" onClick={switchOff}>
                     <div className="max-w-[80%] max-h-[80%] relative">
-                        {children}
+                        {content ? content : children}
                         <div className="absolute cursor-pointer text-white text-2xl -top-[2rem] right-0">X</div>
                     </div>
                 </div>
