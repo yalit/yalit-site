@@ -62,6 +62,10 @@ export default function BlogPost({ data, children }) {
   );
 }
 
+export const Head: React.FC = ({pageContext}) => (
+  <title>Yalit - Blog - {pageContext.title}</title>
+);
+
 export const query = graphql`
   query ($id: String) {
     mdx(id: { eq: $id }) {

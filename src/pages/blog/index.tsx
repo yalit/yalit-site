@@ -33,7 +33,7 @@ const BlogPosts = ({ data }: BlogPostsProps) => {
           <div className="title">
             <p>Some notes and thoughts</p>
           </div>
-          <div className="description">
+          <div className="description ml-5">
             A place where I want to share some of my thoughts, ideas,
             experiences and also some technical bits. I hope you'll find
             something useful here.
@@ -44,6 +44,10 @@ const BlogPosts = ({ data }: BlogPostsProps) => {
     </Layout>
   );
 };
+
+export const Head: React.FC = () => (
+  <title>Yalit - Blog</title>
+);
 
 export default BlogPosts;
 

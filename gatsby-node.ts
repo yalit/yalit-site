@@ -21,6 +21,7 @@ const createMdxBlogPage = async (graphql, createPage, reporter) => {
           id
           frontmatter {
             slug
+            title
           }
           internal {
             contentFilePath
@@ -43,7 +44,7 @@ const createMdxBlogPage = async (graphql, createPage, reporter) => {
       path: withPrefix(`/blog/${node.frontmatter.slug}`),
       // Provide the path to the MDX content file so webpack can pick it up and transform it into JSX
       component: `${postTemplate}?__contentFilePath=${node.internal.contentFilePath}`,
-      context: { id: node.id },
+      context: { id: node.id, title: node.frontmatter.title },
     });
   });
 };

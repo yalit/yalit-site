@@ -10,7 +10,7 @@ import classnames from "../helpers/classnames";
 import "../styles/shared.scss";
 import "../styles/technical.scss";
 
-const TechnicalPage: React.FC<PageProps> = ({ data }) => {
+const TechnicalPage: React.FC<PageProps> = () => {
   return (
     <Layout>
       <div className="px-8">
@@ -19,13 +19,6 @@ const TechnicalPage: React.FC<PageProps> = ({ data }) => {
             <p>Developer</p>
             <p className="ml-10">Analyst</p>
             <p className="ml-20">Project manager</p>
-            <StaticImage
-              src="../images/index/me.jpg"
-              alt="Me"
-              width={100}
-              height={100}
-              className="me"
-            />
           </div>
           <div className="description">
             <div>
@@ -55,7 +48,7 @@ const TechnicalPage: React.FC<PageProps> = ({ data }) => {
               />
             </div>
           </div>
-          <div className="socials">
+          <div className="socials mt-8 flex items-center justify-end gap-3">
             <a
               href="https://www.linkedin.com/in/yannickalsberge"
               target="_blank"
