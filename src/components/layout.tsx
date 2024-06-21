@@ -20,7 +20,7 @@ const navLinks: NavLinkType[] = [
     ),
     link: "/",
   },
-  { display: "Software", link: "/software" },
+  { display: "Me", link: "/me" },
   { display: "Blog", link: "/blog" },
   { display: "Projects", link: "/projects" },
   { display: "Rêveries", link: reveriesBasePath },
@@ -34,7 +34,7 @@ export default function Layout({
   children: React.ReactNode;
   containerClassName?: string;
 }) {
-  const containerClassNames = classnames("container", containerClassName);
+  const containerClassNames = classnames("container-perso", containerClassName);
   return (
     <div className={containerClassNames}>
       <header className="header">

@@ -1,133 +1,126 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { PageProps, graphql } from "gatsby";
 import Layout from "../../components/layout";
 import classnames from "../../helpers/classnames";
 import "../../styles/shared.scss";
 import "../../styles/projects.scss";
+import Project from "../../types/project.interface";
+import ProjectList from "../../components/projects/ProjectList";
+import { getImage } from "gatsby-plugin-image";
 
-type ProjectData = {
-  id: string;
-  title: string;
-  slug: string;
-  summary: string;
-  tags: string[];
-  repository: string;
+type ProjectListData = {
+    year: number;
+    projects: Project[];
 };
 
 export default function Projects({ data }: PageProps<ProjectsPageQuery>) {
-  const dataProjects: ProjectData[] = data.allFile.nodes.map(
-    (node: any): ProjectData[] => {
-      return {
-        id: node.childMarkdownRemark.id,
-        ...node.childMarkdownRemark.frontmatter,
-      };
-    },
-  );
-  const dataTags: string[] = [
-    ...new Set(
-      dataProjects
-        .reduce((acc: string[], project: ProjectData) => {
-          return [...acc, ...project.tags];
-        }, [])
-        .sort(),
-    ),
-  ];
-  const [projects, setProjects] = useState<ProjectData[]>(dataProjects);
-  const [tags, setTags] = useState<string[]>([]);
-
-  const onClickTag = (tag: string) => {
-    if (tags.includes(tag)) {
-      setTags(tags.filter((t) => t !== tag));
-    } else {
-      setTags([...tags, tag]);
-    }
-  };
-
-  useEffect(() => {
-    if (tags.length === 0) {
-      // reset filter
-      setProjects(dataProjects);
-    } else {
-      const newProjects = dataProjects.filter((project) => {
-        return tags.every((tag) => project.tags.includes(tag));
-      });
-      setProjects(newProjects);
-    }
-  }, [tags]);
-
-  const tagClassName = (tag: string, additionalCSS: string) => {
-    const isTagSelected =
-      tags.includes(tag) || (tag === "" && tags.length === 0);
-    return classnames(
-      "px-3 py-1 rounded-md",
-      isTagSelected ? "bg-blue-200" : "bg-gray-300",
-      additionalCSS,
+    const dataProjects: Project[] = data.allFile.nodes.map(
+        (node: any): Project[] => {
+            return {
+                id: node.childMarkdownRemark.id,
+                ...node.childMarkdownRemark.frontmatter,
+                date: new Date(node.childMarkdownRemark.frontmatter.date),
+                thumbnail: getImage(node.childMarkdownRemark.frontmatter.thumbnail),
+            };
+        },
     );
-  };
-  return (
-    <Layout>
-      <div className="px-8">
-        <div className="summary">
-          <div className="title">Some projects I've worked on</div>
-          <div className="description">
-            Below are some of the projects I've worked on. Click on the title to
-            read more about them.
-          </div>
-        </div>
+    const dataTags: string[] = [
+        ...new Set(
+            dataProjects
+                .reduce((acc: string[], project: Project) => {
+                    return [...acc, ...project.tags];
+                }, [])
+                .sort(),
+        ),
+    ];
+    const [projects, setProjects] = useState<Project[]>(dataProjects);
+    const [tags, setTags] = useState<string[]>([]);
 
-        <div className="flex items-center gap-2 my-12 flex-wrap">
-          <p className="font-bold text-lg">Filter by technology </p>
-          <button className={tagClassName("")} onClick={() => setTags([])}>
-            All
-          </button>
-          {dataTags.map((tag) => (
-            <button
-              className={tagClassName(tag)}
-              onClick={() => onClickTag(tag)}
-            >
-              {tag}
-            </button>
-          ))}
-        </div>
-        <div className="projectsList">
-          {projects.map((project: ProjectData) => (
-            <div key={project.id}>
-              <h3 className="font-bold text-lg mb-5">{project.title}</h3>
-              <p className="leading-relaxed mb-5">{project.summary}</p>
-              <p className="flex gap-2 items-center">
-                <p className="font-bold text-sm whitespace-nowrap">
-                  Technologies :
-                </p>
-                {project.tags?.map((tag) => (
-                  <p className="text-sm underline">{tag}</p>
-                ))}
-              </p>
+    const onClickTag = (tag: string) => {
+        if (tags.includes(tag)) {
+            setTags(tags.filter((t) => t !== tag));
+        } else {
+            setTags([...tags, tag]);
+        }
+    };
+
+    useEffect(() => {
+        if (tags.length === 0) {
+            // reset filter
+            setProjects(dataProjects);
+        } else {
+            const newProjects = dataProjects.filter((project) => {
+                return tags.every((tag) => project.tags.includes(tag));
+            });
+            setProjects(newProjects);
+        }
+    }, [tags]);
+
+    const tagClassName = (tag: string, additionalCSS: string = "") => {
+        const isTagSelected =
+            tags.includes(tag) || (tag === "" && tags.length === 0);
+        return classnames(
+            "px-3 py-1 rounded-md",
+            isTagSelected ? "bg-blue-200" : "bg-gray-300",
+            additionalCSS,
+        );
+    };
+
+    return (
+        <Layout>
+            <div className="px-8">
+                <div className="summary">
+                    <div className="title">Some projects I've worked on</div>
+                    <div className="description">
+                        Below are some of the projects I've worked on. 
+                    </div>
+                </div>
+
+                <div className="flex items-center gap-2 my-12 flex-wrap">
+                    <p className="font-bold text-lg">Filter by technology </p>
+                    <button className={tagClassName("")} onClick={() => setTags([])}>
+                        All
+                    </button>
+                    {dataTags.map((tag) => (
+                        <button
+                            className={tagClassName(tag)}
+                            onClick={() => onClickTag(tag)}
+                            key={"dataTag-"+tag}
+                        >
+                            {tag}
+                        </button>
+                    ))}
+                </div>
+                <ProjectList projects={projects} />
             </div>
-          ))}
-        </div>
-      </div>
-    </Layout>
-  );
+        </Layout>
+    );
 }
 
 export const query = graphql`
-  query ProjectsPage {
+query ProjectsPage {
     allFile(
-      filter: { sourceInstanceName: { eq: "project" } }
-      sort: { childMarkdownRemark: { frontmatter: { date: DESC } } }
+        filter: { sourceInstanceName: { eq: "project" }, extension: { eq: "md"}}
+        sort: { childMarkdownRemark: { frontmatter: { date: DESC } } }
     ) {
-      nodes {
-        childMarkdownRemark {
-          frontmatter {
-            slug
-            title
-            summary
-            tags
-            repository
-          }
-          id
+        nodes {
+            childMarkdownRemark {
+                id
+                frontmatter {
+                    slug
+                    title
+                    summary
+                    tags
+                    repository
+                    date
+                    thumbnail {
+                        childImageSharp {
+                            gatsbyImageData(width: 1280, placeholder: BLURRED)
+                        }
+                    }
+                }
+            }
         }
-      }
     }
-  }
+}
 `;
