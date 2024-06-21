@@ -19,7 +19,7 @@ export default function Layout({
 
             <main className="pt-[var(--content-offset)]">{children}</main>
 
-            <footer className="flex flex-col md:flex-row justify-start md:justify-between items-center flex-wrap border-t border-zinc-100 mt-10 pb-16 pt-10 px-4 lg:px-8">
+        <footer className="flex flex-col md:flex-row justify-start md:justify-between items-center flex-wrap border-t border-zinc-100 mt-10 pb-16 pt-10 md:px-4 lg:px-8">
                 <Navigation type="bottom" />
                 <div className="flex-1"></div>
                 <div className="text-zinc-800 text-xs italic">
