@@ -6,7 +6,7 @@ export default interface Project {
     slug: string,
     date: Date,
     tags: string[],
-    repository: string,
+    repository: string|null,
     summary: string,
-    thumbnail: IGatsbyImageData
+    thumbnail: IGatsbyImageData|null
 }

@@ -1,9 +1,7 @@
 ---
-title: Test protocol generation pp
+title: Test protocol generation App
 slug: dossgen-app
 date: 2024-02-02
 tags: [PHP, Symfony, React, ApiPlatform, EasyAdmin]
-repository: "https://github.com"
-thumbnail: './dossgen-app.jpg'
 summary: Client project enabling users to generate PDF file containing dedicated approved test protocols for specific products. It features an test protocols approval process linked to a PDF generation capability after test selection.
 ---
