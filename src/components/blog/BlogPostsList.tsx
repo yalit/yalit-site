@@ -15,7 +15,7 @@ type BlogPostsListProps = {
 
 export default function BlogPostsList({ posts }: BlogPostsListProps) {
   return (
-    <div className="blog-posts">
+    <div className="blog-posts mx-auto w-full max-w-3xl md:max-w-5xl md:p-8 text-sm">
       {posts.map((post) => {
         return (
           <Link to={"/blog/" + post.slug}>

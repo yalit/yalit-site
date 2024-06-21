@@ -1,5 +1,4 @@
 .blog-posts {
-  @apply mx-auto w-full max-w-2xl md:max-w-5xl p-8 text-sm;
 
   a {
     @apply font-normal;
@@ -9,14 +8,14 @@
     @apply flex flex-col md:flex-row items-start mb-8;
 
     .post-date {
-      @apply relative flex order-first gap-3 items-center text-base text-zinc-400 w-60 p-5;
+      @apply relative flex order-first gap-3 items-center text-base text-zinc-400 w-60 md:p-5 mb-4 md:mb-0;
       p:first-child {
         @apply md:hidden;
       }
     }
 
     .post-details {
-      @apply w-[36rem] max-w-full p-5;
+      @apply w-[36rem] max-w-full md:p-5;
 
       &:hover {
         @apply bg-zinc-50 rounded-md;
