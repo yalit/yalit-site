@@ -8,11 +8,6 @@ import Project from "../../types/project.interface";
 import ProjectList from "../../components/projects/ProjectList";
 import { getImage } from "gatsby-plugin-image";
 
-type ProjectListData = {
-    year: number;
-    projects: Project[];
-};
-
 export default function Projects({ data }: PageProps<ProjectsPageQuery>) {
     const dataProjects: Project[] = data.allFile.nodes.map(
         (node: any): Project[] => {
@@ -70,9 +65,9 @@ export default function Projects({ data }: PageProps<ProjectsPageQuery>) {
         <Layout>
             <div className="px-8">
                 <div className="summary">
-                    <div className="title">Some projects I've worked on</div>
-                    <div className="description">
-                        Below are some of the projects I've worked on. 
+                    <div className="title">Crafting</div>
+                    <div className="description ml-10">
+                        Below are some of the projects I've crafted. 
                     </div>
                 </div>
 
@@ -96,6 +91,10 @@ export default function Projects({ data }: PageProps<ProjectsPageQuery>) {
         </Layout>
     );
 }
+
+export const Head: React.FC = () => (
+  <title>Yalit - Projects</title>
+);
 
 export const query = graphql`
 query ProjectsPage {
