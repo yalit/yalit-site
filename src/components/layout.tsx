@@ -20,7 +20,7 @@ const navLinks: NavLinkType[] = [
     ),
     link: "/",
   },
-  { display: "Software", link: "/software" },
+  { display: "Me", link: "/me" },
   { display: "Blog", link: "/blog" },
   { display: "Projects", link: "/projects" },
   { display: "Rêveries", link: reveriesBasePath },

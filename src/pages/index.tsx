@@ -25,7 +25,7 @@ export default function IndexPage() {
         />
       </div>
       <div className="four-titles">
-        <Link to="/software">Software Craftsman</Link>
+        <Link to="/me">Software Craftsman</Link>
         <Link to="/reveries">Photography (Rêveries)</Link>
       </div>
     </>
