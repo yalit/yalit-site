@@ -179,15 +179,7 @@ export default function Gallery({ pageContext, data }) {
         </div>
       </Layout>
       {shownPhoto && (
-        <div
-          className="photo-modal"
-          style={{
-            top: window.scrollY,
-            left: 0,
-            right: 0,
-            height: window.innerHeight,
-          }}
-        >
+        <div className="photo-modal">
           <div className="close" onClick={() => setShownPhoto(null)}>
             X
           </div>
