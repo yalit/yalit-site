@@ -1,0 +1,191 @@
+---
+title: Custom EasyAdmin – Thou shall rule the Posts Listing (3) – Custom entity action
+slug: custom-easyadmin-thou-shall-rule-the-posts-listing-3-custom-entity-action
+date: 2022-06-23
+tags: [Symfony, EasyAdmin, custom-easy-admin, action]
+img_hero: ./hero.jpg
+img_hero_alt: old bike and a trailer
+img_hero_credit: Yannick (Rêveries)
+summary: Let’s continue our dive into the customization of Easy Admin listing page. We’ve first looked at the fields customization, then access restriction. Here, we want to explore the listing and its actions. In this last, out of three posts here, we’ll focus on how to define custom actions on the entity items.
+---
+
+> This article is part of a series of Article around the customization of EasyAdmin within Symfony. You can find the list of [related articles](/blog/tags/custom-easy-admin) and the context of it in this article : [Symfony & EasyAdmin – space for extra functionalities](/blog/symfony-easyadmin-space-for-extra-functionalities)
+
+## Introduction
+
+Let’s continue our dive into the customization of Easy Admin listing page. We’ve first looked at the [fields customization](/blog/custom-easyadmin-thou-shall-rule-the-posts-listing-1-fields-customization), then [access restriction](/blog/custom-easyadmin-thou-shall-rule-the-posts-listing-2-access-restriction). Here, we want to explore the listing and its actions.
+In this last, out of three posts here, we’ll focus on how to define custom actions on the entity items.
+
+We are going to talk here about:
+
+- Custom entity action
+
+![abswtract view of a wall corner](./abstraction.jpg)
+
+## Custom entity action
+
+### Which action?
+
+In our application, there are specific actions for specific roles:
+
+- **Publish** a Post : this action is only permitted for Admin or Publisher and only when a post is in “request review” status. After the publication, the status of the Post should be “published”.
+- **Cancel** the publication of a Post : this action is only permitter for an Admin or a Publisher and also only when a post is in “request review” status. After the cancellation of the publication, the status of the Post should be “draft”.
+
+<p style={{fontDecoration: "italic"}}>Note : There is also an action to request the review but is not developed in this branch, you can find its implementation in the main branch</p>
+
+### Impact
+
+To enable the [custom actions in EasyAdmin](https://symfony.com/bundles/EasyAdminBundle/current/actions.html#adding-custom-actions), we need the following:
+
+1. [create a new custom action](#create-new-custom-action)
+2. [define where the actions will be displayed](#display-actions)
+3. [Link the action to an actual processing](#link-the-action)
+
+#### <p id="create-new-custom-action"></p>**Create a new custom action**
+
+_Note: We’ll focus for the code examples on the “**Publish**” action but the “**Cancel**” action is developed the same way in the repository._
+
+So, let's create a custom action in our Controller
+
+```php
+//src/Controller/EasyAdmin/PostCrudController.php
+
+public function configureActions(Actions $actions): Actions
+{
+    // creates new actions (cfr private custom functions below)
+    $publishAction = $this->getPublishAction('post_publish');
+    $cancelAction = $this->getCancelAction('post_cancel');
+
+    return $actions
+        ...
+}
+
+/**
+* Creates a simple EasyAdmin action referencing it by the name given in parameter
+*/
+private function getPublishAction(string $name): Action
+{
+    // the 'name' of the action is its id in the EasyAdmin referential ==> allows for update afterwards
+    $publishAction = Action::new($name);
+    $publishAction
+        // this is the actual process behind the action => here a specific custom controller action (see above)
+        ->linkToCrudAction('postPublish')
+        // that is the label that will be used by EasyAdmin when displaying the call to action link
+        // Translation is handled (cfr post.action.publish in the 'en' translation file
+        ->setLabel('post.action.publish')
+        // Each action can be displayed based on specific criteria
+        // the function accepts a function taking as input the entity on which it should be done
+        ->displayIf(
+            fn($entity) => null !== $entity
+                && $this->workflowActioner->can(PostPublishAction::class, $entity)
+        )
+    ;
+    return $publishAction;
+}
+```
+
+Let’s break it down. First, I extracted the creation of the Action in a specific function to isolate and not bloat the configureActions function.
+
+1. first I create a new Action with the Action::new(‘name-of-the-action’)
+2. after I define which function in the PostCrudController will act as processor for that action by using the ->linkToCrudAction(‘postPublish’) where postPublish is the name of a function in the Controller.
+   You can link an action to a various types of processor:
+   - Inside the controller as above
+   - link the action to a specific route with the $action->linkToRoute(‘route-name’)
+   - link the action to a generic url with the $action->linkToUrl(‘url’)
+3. then I add a label to the action with the ->setLabel(‘post.action.publish’) where ‘post.action.publish’ is a translation key. Indeed EasyAdmin integrates automatically the translation as strongly integrated to Symfony
+4. Eventually, I add a condition on the display linked to the status of the Post (Remember : we only need that action to be displayed when the entity is in draft). I do that by using the ->displayIf(Closure $closure).
+   This function expects a Closure that takes as input the instanciated entity
+   For the workflowActioner, please refer to the point 3. below as I put in place a Workflow Manager” to allow for generic handling of ‘Workflow Actions’ (I might dedicate a small article on that one)
+
+#### <p id="display-actions"></p>**Display the actions**
+
+After creating the actions, we need to link/attach/add them to the different pages of the Crud in EasyAdmin
+
+```php
+//src/Controller/EasyAdmin/PostCrudController.php
+
+public function configureActions(Actions $actions): Actions
+{
+    // creates new actions (cfr private custom functions below)
+    $publishAction = $this->getPublishAction('post_publish');
+    $cancelAction = $this->getCancelAction('post_cancel');
+
+    return $actions
+        // add a new actions specifically on the Index page nowhere else
+        ->add(Crud::PAGE_INDEX,  $publishAction)
+        ->setPermission('post_publish', PostVoter::PUBLISH)
+        ->add(Crud::PAGE_INDEX,  $cancelAction)
+        ->setPermission('post_cancel', PostVoter::CANCEL)
+        ->setPermission(Action::NEW, PostVoter::CREATE)
+        ->add(Crud::PAGE_INDEX, Action::DETAIL)
+        // remove an existing action from the index page
+        ->remove(Crud::PAGE_INDEX, Action::DELETE)
+        ;
+}
+```
+
+For that, after having created the actions (cfr above), we then add the actions on the intended page. Here the actions should only be viewable on the list page (aka the Index page) so we use the _$action->add(Crud::PAGE_INDEX, $publishAction)_.
+
+This function will add the action to the Index/Listing page.
+
+Linked to the display, we must allow only the action for a certain type of user. The way to define permissions in Symfony is to use Voter and EasyAdmin permits us to do the same for action. We CAN use Voters.
+The simple way is to use the ->setPermission() function like above : ->setPermission(‘post*publish’, PostVoter::PUBLISH) (I leave you to look at the \*\*\_App\Security\EasyAdmin\PostVoter*\*\* by yourself for the implementation of the Voter ;-)).
+
+#### <p id="link-the-action"></p> **Action the action**
+
+The last part of this setup is to actually do something when the action is triggered by the user.
+
+As defined in the action setup (cfr [1. Create Action](#create-new-custom-action)), we linked the action to CrudController action/function.
+
+```php
+//src/Controller/EasyAdmin/PostCrudController.php
+
+public function __construct(private WorkflowActioner $workflowActioner)
+{
+}
+
+/**
+* Specific action linked to the post_cancel action created below
+* Any process can be triggered here using DI
+*/
+public function postPublish(AdminContext $adminContext): Response
+{
+    /** @var Post $post */
+    // From the AdminContext, you have access to the current instance
+    // Attention getEntity() provides an EntityDto not the actual instance
+    $post = $adminContext->getEntity()->getInstance();
+    try {
+        // from the DI you're able as in any other Symfony controller to trigger specific processes
+        $execution = $this->workflowActioner->execute(PostPublishAction::class, $post);
+    } catch (NonExistentActionForWorkflowActioner $e) {
+        $execution = false;
+    }
+
+    if ($execution) {
+        $messageFlash = sprintf("Post %s has correctly been Published", $post->getTitle());
+    } else {
+        $messageFlash = sprintf("Post %s couldn't be Published", $post->getTitle());
+    }
+
+        // the EasyAdmin CRUD Controllers are extension of the AbstractCRUDController so you can use all the basic
+        // functionalities from it (addFlash, render, redirect ...)
+    $this->addFlash("success", $messageFlash);
+
+    return $this->redirect($adminContext->getReferrer());
+}
+```
+
+The action receives as input the EasyAdmin [AdminContext](https://github.com/EasyCorp/EasyAdminBundle/blob/4.x/src/Context/AdminContext.php) which provides access to all the Dto and which returns the Response as any Controller would.
+
+As explained a bit above, I defined an “Workflow Action Actioner” (poor choice of naming… ) to extract the actual action from the controllers.
+Here :
+
+1. with Dependency Injection, we can inject the WorkflowActioner in the PostCrudController constructor
+2. use it then to execute the action with $this->workflowActioner->execute(PostPublishAction::class, $post)
+
+In this, I add also a small flashMessage to indicate to the user that it has correctly worked or not and then redirect to the referrer page which is here the index/listing page.
+
+> [REPOSITORY](https://github.com/yalit/custom-easy-admin) : the code of this example is available in the branch [02.Post_Workflow_Listing](https://github.com/yalit/custom-easy-admin/tree/02.Post_Workflow_Listing)
+
+> All pictures of this article are of the making of the author and some can be seen here : [Rêveries](/reveries)
+

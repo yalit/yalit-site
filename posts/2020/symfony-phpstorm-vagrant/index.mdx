@@ -1,0 +1,40 @@
+---
+title: Symfony & PHPStorm & Vagrant – run debug configuration on command
+slug: symfony-phpstorm-vagrant-run-debug-configuration-on-command
+date: 2020-11-20
+tags: [PHPStorm, Symfony, Vagrant]
+img_hero: ./hero.jpg
+img_hero_alt: Header
+img_hero_credit: Yannick (Rêveries)
+summary: I have the need on my symfony applications to run, in PHPStorm, commands in debug mode (after some test failures for instance ;-)) while having a Vagrant development environment.
+---
+
+### Problem
+
+I have the need on my symfony applications to run, in [PHPStorm](https://www.jetbrains.com/phpstorm/), commands in debug mode (after some test failures for instance ;-)) while having a [Vagrant](https://www.vagrantup.com/) development environment.
+
+To be able to do such runs, there is a specific way to define configuration so that I’m able to run them in a debug mode. However there is a catch, as I’m using as dev enviroment a [Vagrant](https://www.vagrantup.com/) box.
+
+Here is how I sorted this out (it’s also for me a way to store that information somewhere I know I can easily go back to). Maybe there are other ways but this is working for me.
+
+### Configuration
+
+First create a ‘PHP Script’ configuration.
+
+Then in the configuration setup screen, in the File line, enter the full path of the **bin/console** script.
+On the Arguments line, enter the arguments with which you want to run the command, like : **app:command-name**
+
+The next part is what will allow the use of the PHP interpreter of the Vagrant box. In the Configuration, you need to select the remote interpreter you have setup for your project.
+
+Then, the bit that will allow the debugger to interact with PHPStorm : in the environment variables, please use the following :
+
+```
+XDEBUG_CONFIG="idekey=PHPSTORM";PHP_IDE_CONFIG="serverName=vagrant"
+```
+
+This will allow your IDE to interact and connect to the debugger in your vagrant box.
+
+### Result
+
+That should resemble something like that:
+![PHPStorm configuration](./screenshot_1.png)
