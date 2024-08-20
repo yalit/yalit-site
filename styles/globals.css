@@ -3,31 +3,63 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --content-offset: 80px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+html {
+  @apply bg-zinc-50;
+
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    sans-serif,
+    Apple Color Emoji,
+    Segoe UI Emoji,
+    Segoe UI Symbol,
+    Noto Color Emoji;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+a {
+  @apply text-zinc-600 font-bold;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+/* remodeling the container to remove the backdrop-filter which causes the position: fixed not to work for Lightbox */
+.container-perso {
+    margin-left: auto;
+  margin-right: auto;
+  min-height: 100vh;
+  width: 100vw;
+  max-width: 80rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  --tw-shadow-color: rgb(39 39 42 / 0.05);
+  --tw-shadow: var(--tw-shadow-colored);
+  --tw-backdrop-blur: blur(8px);
+}
+
+.summary {
+    .title {
+        @apply mb-8 text-4xl font-bold text-zinc-800 sm:text-5xl;
+    }
+    .description {
+        @apply text-base md:text-lg text-zinc-600 leading-8;
+        & > div {
+            @apply flex flex-col md:flex-row justify-between items-center gap-10;
+
+            &:last-child {
+                @apply md:flex-row-reverse mt-10 md:mt-20;
+            }
+
+            .gatsby-image-wrapper {
+                @apply hidden md:block;
+            }
+        }
+
+        .rounded_img {
+            @apply aspect-[9/10] w-40 flex-none overflow-hidden rounded-xl bg-zinc-100 sm:w-64 sm:rounded-2xl;
+        }
+    }
 }
