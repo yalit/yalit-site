@@ -5,8 +5,6 @@ import LinkedinIcon from "@/components/icons/linkedin";
 import { Image } from "@/components/Image";
 import classnames from "@/lib/classnames";
 
-import styles from '../styles/index.module.css'
-
 export default function Index() {
     return (
         <>
@@ -65,34 +63,34 @@ export default function Index() {
                     </div>
                 </div>
 
-                <div className={styles.banner}>
+                <div className={"banner"}>
                     <Image
-                        classname={classnames(styles.bannerImage, "-rotate-3", "min-w-[200px] min-h-[200px]")}
-                        imgClassname={classnames(styles.bannerImage, "min-w-[200px] min-h-[200px]")}
+                        classname={classnames("bannerImage", "-rotate-3", "min-w-[200px] min-h-[200px]")}
+                        imgClassname={classnames("bannerImage", "min-w-[200px] min-h-[200px]")}
                         src="index/coast.jpg"
                         alt="Coast with cliffs and nature"
                     />
                     <Image
-                        classname={classnames(styles.bannerImage, "rotate-2", "min-w-[200px] min-h-[200px]")}
-                        imgClassname={classnames(styles.bannerImage, "min-w-[200px] min-h-[200px]")}
+                        classname={classnames("bannerImage", "rotate-2", "min-w-[200px] min-h-[200px]")}
+                        imgClassname={classnames("bannerImage", "min-w-[200px] min-h-[200px]")}
                         src="index/cow.jpg"
                         alt="Cow portrait"
                     />
                     <Image
-                        classname={classnames(styles.bannerImage, "-rotate-1", "min-w-[200px] min-h-[200px]")}
-                        imgClassname={classnames(styles.bannerImage, "min-w-[200px] min-h-[200px]")}
+                        classname={classnames("bannerImage", "-rotate-1", "min-w-[200px] min-h-[200px]")}
+                        imgClassname={classnames("bannerImage", "min-w-[200px] min-h-[200px]")}
                         src="index/source.jpg"
                         alt="bublling source of water"
                     />
                     <Image
-                        classname={classnames(styles.bannerImage, "rotate-2", "min-w-[200px] min-h-[200px]")}
-                        imgClassname={classnames(styles.bannerImage, "min-w-[200px] min-h-[200px]")}
+                        classname={classnames("bannerImage", "rotate-2", "min-w-[200px] min-h-[200px]")}
+                        imgClassname={classnames("bannerImage", "min-w-[200px] min-h-[200px]")}
                         src="index/wood_nb.jpg"
                         alt="road bewteen trees in black and white"
                     />
                     <Image
-                        classname={classnames(styles.bannerImage, "-rotate-3", "min-w-[200px] min-h-[200px]")}
-                        imgClassname={classnames(styles.bannerImage, "min-w-[200px] min-h-[200px]")}
+                        classname={classnames("bannerImage", "-rotate-3", "min-w-[200px] min-h-[200px]")}
+                        imgClassname={classnames("bannerImage", "min-w-[200px] min-h-[200px]")}
                         src="index/tree_light.jpg"
                         alt="sun light through trees"
                     />
@@ -101,4 +99,3 @@ export default function Index() {
         </>
     )
 }
-

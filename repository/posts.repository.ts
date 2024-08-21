@@ -4,12 +4,28 @@ import { readFileSync } from "fs"
 import matter from "gray-matter"
 import moment from "moment"
 import { join } from "path"
+import { OrderByOrder } from "./types.repository"
 
 const PostRepository = {
     allInformation: (): PostInformationInterface[] => {
-        const files = getFilesFromFolder(join('posts'), 'mdx')
+        const files: string[] = getFilesFromFolder(join('posts'), 'mdx')
 
         return files.map(extractPostInformation)
+    },
+
+    allInformationByDate: (order: OrderByOrder): PostInformationInterface[] => {
+        const infos = PostRepository.allInformation()
+
+        return infos.toSorted((a, b) => {
+            const [dayA, monthA, yearA] = a.date.split('-')
+            const dateA = new Date(Number(yearA), Number(monthA) - 1, Number(dayA))
+            const [dayB, monthB, yearB] = b.date.split('-')
+            const dateB = new Date(Number(yearB), Number(monthB) - 1, Number(dayB))
+
+            if (dateA < dateB) return order === 'ASC' ? -1 : 1
+            if (dateA > dateB) return order === 'ASC' ? 1 : -1
+            return 0
+        })
     },
 
     post: (year: string, slug: string): PostInterface | null => {
