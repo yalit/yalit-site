@@ -12,7 +12,7 @@ export default function Blog({ posts }: { posts: PostInformationInterface[] }) {
                     </div>
                     <div className="description mb-5 md:mb-0 md:ml-5">
                         A place where I want to share some of my thoughts, ideas,
-                        experiences and also some technical bits. I hope you'll find
+                        experiences and also some technical bits. I hope you&apos;ll find
                         something useful here.
                     </div>
                 </div>

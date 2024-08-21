@@ -9,6 +9,8 @@ img_hero_credit: Yannick (Rêveries)
 summary: As a first update of the Admin, let’s tackle the least original of all... handling Users… Not any logged in users should be able to update any users, more none of them should be allowed to do anything to any users, so let’s try to restrict the potential actions on our Users only to the Admins of the application.
 ---
 
+import BlogImage from '../components/BlogImage'
+
 > This article is part of a series of Article around the customization of EasyAdmin within Symfony. You can find the list of [related articles](/blog/tags/custom-easy-admin) and the context of it in this article : [Symfony & EasyAdmin – space for extra functionalities](/blog/symfony-easyadmin-space-for-extra-functionalities)
 
 ### Introduction
@@ -21,7 +23,7 @@ The functionality that is in display here is how to update the security on [spec
 
 Especially, we’ll want to restrict the usage of them by using [Permissions](https://symfony.com/bundles/EasyAdminBundle/current/actions.html#restricting-actions).
 
-![Natura 2000 in Gembloux](./natura.jpg)
+<BlogImage src="2022/only-admins-can-update-users/natura.jpg" altNatura 2000 in Gembloux" />
 
 <p style={{textAlign: "center", marginTop: "-25px", color: "#777"}}>Restrictions, you said???</p>
 

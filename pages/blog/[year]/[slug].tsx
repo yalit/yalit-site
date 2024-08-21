@@ -1,20 +1,49 @@
-import { PostInterface } from "@/model/post.interface"
+import { AppImage } from "@/components/appImage"
+import BlogImage from "@/components/blog/blogImage"
+import { PostInformationInterface, PostInterface } from "@/model/post.interface"
 import StaticProps from "@/model/staticprops.interface"
 import PostRepository from "@/repository/posts.repository"
-import { marked } from "marked"
+import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote"
+import { serialize } from "next-mdx-remote/serialize"
+import { join } from "path"
 
-type BlogPageProps = { post: PostInterface | null }
+type BlogPageProps = { post: PostInterface | null, mdxSource: MDXRemoteSerializeResult }
 
-export default function BlogPage({ post }: BlogPageProps) {
+const availableComponents = {
+    BlogImage
+}
+
+export default function BlogPage({ post, mdxSource }: BlogPageProps) {
+    if (!post) {
+        return '';
+    }
+
     return (
         <>
-            {post &&
-                <>
-                    <div>Blog page for : {post.title}/{post.summary ?? 'No summary'}</div>
-                    <h3>Content</h3>
-                    <div dangerouslySetInnerHTML={{ __html: marked.parse(post.content) }}></div>
-                </>
-            }
+            <div className="img-hero">
+                <AppImage src={join("blog", post.year, post.slug, post.img_hero)} alt={post.img_hero_alt} classname="w-full" />
+                <p className="img-credit">Crédit: {post.img_hero_credit}</p>
+            </div>
+            <div className="post-container">
+                <div className="date">
+                    <span className="h-4 w-0.5 rounded-full bg-zinc-200"></span>
+                    <div className="ml-3">{post.date}</div>
+                </div>
+                {post.tags && post.tags.length > 0 && (
+                    <div className="tags">
+                        <span className="h-4 w-0.5 mr-2 rounded-full bg-zinc-200"></span>
+                        {post.tags.map((tag, index) => (
+                            <a href={"/blog/tags/" + tag} key={"Link-Tag" + index}>
+                                <span key={index} className="tag">
+                                    {tag}
+                                </span>
+                            </a>
+                        ))}
+                    </div>
+                )}
+                <div className="title">{post.title}</div>
+                <MDXRemote {...mdxSource} components={availableComponents} />
+            </div>
         </>
     )
 }
@@ -24,14 +53,17 @@ export function getStaticPaths() {
     const postInfos = PostRepository.allInformation()
 
     return {
-        paths: postInfos.map(postInfo => (
+        paths: postInfos.map((postInfo: PostInformationInterface) => (
             { params: { year: postInfo.year, slug: postInfo.slug } }
         )),
-        fallback: true
+        fallback: false
     }
 }
 
-export function getStaticProps(context: { params: { year: string, slug: string } }): StaticProps<BlogPageProps> {
+export async function getStaticProps(context: { params: { year: string, slug: string } }): Promise<StaticProps<BlogPageProps>> {
     const post = PostRepository.post(context.params.year, context.params.slug)
-    return { props: { post } }
+
+    const mdxSource = await serialize(post?.content as any)
+
+    return { props: { post, mdxSource } }
 }

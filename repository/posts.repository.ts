@@ -5,6 +5,7 @@ import matter from "gray-matter"
 import moment from "moment"
 import { join } from "path"
 import { OrderByOrder } from "./types.repository"
+import { serialize } from "v8"
 
 const PostRepository = {
     allInformation: (): PostInformationInterface[] => {
@@ -31,11 +32,10 @@ const PostRepository = {
     post: (year: string, slug: string): PostInterface | null => {
         const files = getFilesFromFolder(join('posts'), 'mdx')
 
-        return files.map(extractPost).filter(p => p.year === year && p.slug === slug)[0] ?? null
+        return files.map(extractPost).filter((p: PostInterface) => p.year === year && p.slug === slug)[0] ?? null
     }
 
 }
-
 
 function extractPostInformation(file: string): PostInformationInterface {
     const { frontmatter, year } = extractFileFrontMatterData(file)

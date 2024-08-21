@@ -2,7 +2,7 @@ import Icon500px from "@/components/icons/500px";
 import GithubIcon from "@/components/icons/github";
 import InstagramIcon from "@/components/icons/instagram";
 import LinkedinIcon from "@/components/icons/linkedin";
-import { Image } from "@/components/Image";
+import { AppImage } from "@/components/Image";
 import classnames from "@/lib/classnames";
 
 export default function Index() {
@@ -18,7 +18,7 @@ export default function Index() {
                     <div className="description">
                         <div>
                             <p>
-                                I'm Yannick, a <span className="font-bold">developer</span>,{" "}
+                                I&apos;m Yannick, a <span className="font-bold">developer</span>,{" "}
                                 <span className="font-bold">analyst</span>, and{" "}
                                 <span className="font-bold">project manager</span>. I have a
                                 passion for technology and I love to find solutions and build
@@ -34,7 +34,7 @@ export default function Index() {
                                 Wordpress, Drupal ...). I am always looking to learn new things
                                 and I am open to new opportunities.
                             </p>
-                            <Image
+                            <AppImage
                                 classname="rounded_img rotate-2 min-w-[200px] min-h-[200px]"
                                 src="index/code.jpg"
                                 alt="Computer with code and a notebook"
@@ -64,31 +64,31 @@ export default function Index() {
                 </div>
 
                 <div className={"banner"}>
-                    <Image
+                    <AppImage
                         classname={classnames("bannerImage", "-rotate-3", "min-w-[200px] min-h-[200px]")}
                         imgClassname={classnames("bannerImage", "min-w-[200px] min-h-[200px]")}
                         src="index/coast.jpg"
                         alt="Coast with cliffs and nature"
                     />
-                    <Image
+                    <AppImage
                         classname={classnames("bannerImage", "rotate-2", "min-w-[200px] min-h-[200px]")}
                         imgClassname={classnames("bannerImage", "min-w-[200px] min-h-[200px]")}
                         src="index/cow.jpg"
                         alt="Cow portrait"
                     />
-                    <Image
+                    <AppImage
                         classname={classnames("bannerImage", "-rotate-1", "min-w-[200px] min-h-[200px]")}
                         imgClassname={classnames("bannerImage", "min-w-[200px] min-h-[200px]")}
                         src="index/source.jpg"
                         alt="bublling source of water"
                     />
-                    <Image
+                    <AppImage
                         classname={classnames("bannerImage", "rotate-2", "min-w-[200px] min-h-[200px]")}
                         imgClassname={classnames("bannerImage", "min-w-[200px] min-h-[200px]")}
                         src="index/wood_nb.jpg"
                         alt="road bewteen trees in black and white"
                     />
-                    <Image
+                    <AppImage
                         classname={classnames("bannerImage", "-rotate-3", "min-w-[200px] min-h-[200px]")}
                         imgClassname={classnames("bannerImage", "min-w-[200px] min-h-[200px]")}
                         src="index/tree_light.jpg"

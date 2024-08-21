@@ -1,3 +1,5 @@
+import { Component } from "react"
+
 export interface PostInformationInterface {
     title: string
     date: string
