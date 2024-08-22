@@ -1,5 +1,6 @@
 import { AppImage } from "@/components/appImage"
 import BlogImage from "@/components/blog/blogImage"
+import { CodeBlock, CodeBlockProps } from "@/components/blog/codeBlock"
 import { PostInformationInterface, PostInterface } from "@/model/post.interface"
 import StaticProps from "@/model/staticprops.interface"
 import PostRepository from "@/repository/posts.repository"
@@ -10,7 +11,8 @@ import { join } from "path"
 type BlogPageProps = { post: PostInterface | null, mdxSource: MDXRemoteSerializeResult }
 
 const availableComponents = {
-    BlogImage
+    BlogImage,
+    pre: (props) => <CodeBlock {...props} />,
 }
 
 export default function BlogPage({ post, mdxSource }: BlogPageProps) {

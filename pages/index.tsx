@@ -1,8 +1,8 @@
+import { AppImage } from "@/components/appImage";
 import Icon500px from "@/components/icons/500px";
 import GithubIcon from "@/components/icons/github";
 import InstagramIcon from "@/components/icons/instagram";
 import LinkedinIcon from "@/components/icons/linkedin";
-import { AppImage } from "@/components/Image";
 import classnames from "@/lib/classnames";
 
 export default function Index() {
