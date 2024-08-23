@@ -1,6 +1,7 @@
 import { AppImage } from "@/components/appImage"
 import BlogImage from "@/components/blog/blogImage"
-import { CodeBlock, CodeBlockProps } from "@/components/blog/codeBlock"
+import { CodeBlock } from "@/components/blog/codeBlock"
+import useBlogTagUrl from "@/hooks/useBlogTagUrl"
 import { PostInformationInterface, PostInterface } from "@/model/post.interface"
 import StaticProps from "@/model/staticprops.interface"
 import PostRepository from "@/repository/posts.repository"
@@ -12,10 +13,12 @@ type BlogPageProps = { post: PostInterface | null, mdxSource: MDXRemoteSerialize
 
 const availableComponents = {
     BlogImage,
-    pre: (props) => <CodeBlock {...props} />,
+    pre: (props: any) => <CodeBlock {...props} />,
 }
 
 export default function BlogPage({ post, mdxSource }: BlogPageProps) {
+    const { generate: generateBlogTagUrl } = useBlogTagUrl()
+
     if (!post) {
         return '';
     }
@@ -35,7 +38,7 @@ export default function BlogPage({ post, mdxSource }: BlogPageProps) {
                     <div className="tags">
                         <span className="h-4 w-0.5 mr-2 rounded-full bg-zinc-200"></span>
                         {post.tags.map((tag, index) => (
-                            <a href={"/blog/tags/" + tag} key={"Link-Tag" + index}>
+                            <a href={generateBlogTagUrl(tag)} key={"Link-Tag" + index}>
                                 <span key={index} className="tag">
                                     {tag}
                                 </span>

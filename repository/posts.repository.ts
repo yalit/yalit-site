@@ -45,7 +45,8 @@ function extractPostInformation(file: string): PostInformationInterface {
         date: moment(frontmatter.date).format("DD-MM-YYYY"),
         slug: frontmatter.slug as string,
         summary: frontmatter.summary ?? '' as string,
-        year
+        year,
+        tags: frontmatter.tags
     }
 }
 
