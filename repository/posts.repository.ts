@@ -5,7 +5,6 @@ import matter from "gray-matter"
 import moment from "moment"
 import { join } from "path"
 import { OrderByOrder } from "./types.repository"
-import { serialize } from "v8"
 
 const PostRepository = {
     allInformation: (): PostInformationInterface[] => {

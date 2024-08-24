@@ -240,3 +240,51 @@ a {
     }
   }
 }
+
+/*******************************
+* Projects
+* *************************/
+.projects__list {
+  @apply flex flex-col items-center justify-center;
+
+  .projects__list__container {
+    @apply w-full flex items-center justify-center;
+
+    & > div {
+      @apply box-border;
+    }
+
+    .projects__list__project {
+      @apply w-1/2 px-4 border-gray-400 pt-4 pb-16 cursor-pointer;
+      &:hover {
+        @apply border-blue-800 bg-blue-50;
+      }
+
+      &:last-child {
+        @apply pb-4;
+      }
+    }
+
+    .projects__list__project__info {
+      @apply w-1/2 flex justify-center;
+    }
+
+    &.even {
+      @apply justify-start;
+      .projects__list__project {
+        @apply border-r-4 text-right;
+      }
+    }
+
+    &.odd {
+      @apply justify-end flex-row-reverse;
+      .projects__list__project {
+        @apply border-l-4;
+      }
+
+      .projects__list__project__info {
+        @apply text-right;
+      }
+    }
+  }
+}
