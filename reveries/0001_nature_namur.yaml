@@ -1,0 +1,31 @@
+order: 1
+slug: nature-in-manurois
+title: Nature in Namurois
+subtitle: Some nature stills and W&B Shots
+idea: Small walk in the countryside
+tags: [nature, moody, Black&White, Natura2000]
+categories: [Creative, Nature]
+location: Gembloux | Belgium
+year: 2021
+frontphoto: "001.jpg"
+photos:
+  - path: "001.jpg"
+    subtitle: some houses for the little ones
+  - path: "002.jpg"
+    subtitle: Small is beautiful
+  - path: "003.jpg"
+    subtitle: Honey - Bees - Where all is done
+  - path: "004.jpg"
+    subtitle: Resting place or nesting place???
+  - path: "005.jpg"
+    subtitle: Abandoned rig... and time goes by
+  - path: "006.jpg"
+    subtitle: Peaceful lake
+  - path: "007.jpg"
+    subtitle: Is it abandoned ???
+  - path: "008.jpg"
+    subtitle: Looks a lot like the batcave
+  - path: "009.jpg"
+    subtitle: When time wins over the castle ;-)
+  - path: "010.jpg"
+    subtitle: When snow reveals the beauty of the fields

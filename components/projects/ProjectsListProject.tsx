@@ -1,6 +1,7 @@
 import ProjectInformation from "@/model/project.interface"
 import Lightbox from "../shared/lightbox"
 import ProjectImage from "./projectImage"
+import { join } from "path"
 
 type ProjectsListProjectProps = { project: ProjectInformation }
 export default function ProjectsListProjec({ project }: ProjectsListProjectProps) {
@@ -9,19 +10,9 @@ export default function ProjectsListProjec({ project }: ProjectsListProjectProps
     const summaryClass = "summary flex flex-col w-full h-full order-2 md:w-2/3 lg:flex-1 lg:order-2 justify-between p-3"
     return (
         <div className="projectlist-project flex flex-wrap justify-between basis-0">
-            {project.thumbnail ?
-                <Lightbox
-                    className={titleClass}
-                    content={<ProjectImage src={project.thumbnail} alt={project.title} classname="w-full rounded-b lg:rounded-none" />}
-                >
-                    {project.title}
-                </Lightbox>
-                : <div className={titleClass}>{project.title}</div>
-            }
+            <div className={titleClass}>{project.title}</div>
             {project.thumbnail &&
-                <Lightbox className={thumbnailClass}>
-                    <ProjectImage src={project.thumbnail} alt={project.title} classname="w-full rounded-b lg:rounded-none object-cover" />
-                </Lightbox>
+                <Lightbox className={thumbnailClass} img={join('projects', project.thumbnail)} />
             }
             <div className={summaryClass}>
                 <div className="summary__info mb-3">

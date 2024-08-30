@@ -1,0 +1,23 @@
+order: 2
+slug: liege-cite-miroir
+title: Liège - Cité Miroir
+subtitle: Architectural landscape in Liège - an old swimming pool
+idea: Internal old vs new architecture
+tags: [Architecture, Old colors, Re-use]
+categories: [Creative]
+location: Liège | Belgium
+year: 2021
+frontphoto: "001.jpg"
+photos:
+  - path: "001.jpg"
+    subtitle: Entry to the pool... Re-imagine in museum entry
+  - path: "002.jpg"
+    subtitle: Pool and museum together...
+  - path: "003.jpg"
+    subtitle: Global view
+  - path: "004.jpg"
+    subtitle: Entry from another angle
+  - path: "005.jpg"
+    subtitle: Entry from another angle - B&W
+  - path: "006.jpg"
+    subtitle: Entry from another angle - Original

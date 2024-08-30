@@ -48,7 +48,7 @@ export default function Projects({ projects, tags }: ProjectsProps) {
             <div className="summary">
                 <div className="title">Crafting</div>
                 <div className="description ml-10">
-                    Below are some of the projects I've crafted.
+                    Below are some of the projects I&apos;ve crafted.
                 </div>
             </div>
 

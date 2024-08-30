@@ -6,6 +6,6 @@ export function getFilesFromFolder(folder: string, extension: string = ''): stri
         recursive: true, withFileTypes: true
     })
 
-    return files.map(d => join(d.parentPath, d.name)).filter(f => extension === '' ? true : f.endsWith('mdx'))
+    return files.map(d => join(d.parentPath, d.name)).filter(f => extension === '' ? true : f.endsWith(extension))
 }
 
