@@ -45,7 +45,7 @@ export default function GalleryPageSingle({ gallery }: GalleryPageSingleProps) {
             }
             setPhotos(splitPhotoListInColumns(gallery.photos, 1, columnWidth)); //otherwise, show photos in two columns
         }
-    }, [windowSize, photosRef]);
+    }, [windowSize, photosRef, photos.length, gallery.photos]);
 
 
     return (

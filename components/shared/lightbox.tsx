@@ -1,4 +1,4 @@
-import { PropsWithChildren, useEffect, useState } from "react"
+import { PropsWithChildren, useCallback, useEffect, useState } from "react"
 import { AppImage } from "../appImage"
 
 interface LightboxProps extends PropsWithChildren {
@@ -10,8 +10,8 @@ interface LightboxProps extends PropsWithChildren {
 export default function Lightbox({ img, className = "", enlighted = null }: LightboxProps) {
     const [elemEnlighted, setElemEnlighted] = useState<boolean>(false)
 
-    const switchOn = () => setElemEnlighted(enlighted === null ? true : enlighted)
-    const switchOff = () => setElemEnlighted(enlighted === null ? false : enlighted)
+    const switchOn = useCallback(() => setElemEnlighted(enlighted === null ? true : enlighted), [enlighted])
+    const switchOff = useCallback(() => setElemEnlighted(enlighted === null ? false : enlighted), [enlighted])
 
     useEffect(() => {
         const closeOnEsc = (e: KeyboardEvent) => {
@@ -27,7 +27,7 @@ export default function Lightbox({ img, className = "", enlighted = null }: Ligh
             document.removeEventListener("keyup", closeOnEsc)
         }
 
-    }, [elemEnlighted])
+    }, [elemEnlighted, switchOff])
     return (
         <>
             <div onClick={switchOn} className={className}>

@@ -31,7 +31,7 @@ export default function Projects({ projects, tags }: ProjectsProps) {
             });
             setDisplayedProjects(newProjects);
         }
-    }, [selectedTags]);
+    }, [selectedTags, projects]);
 
     const tagClassName = (tag: string, additionalCSS: string = "") => {
         const isTagSelected =
