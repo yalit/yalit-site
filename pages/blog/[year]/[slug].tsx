@@ -26,8 +26,8 @@ export default function BlogPage({ post, mdxSource }: BlogPageProps) {
     return (
         <>
             <div className="img-hero">
-                <AppImage src={join("blog", post.year, post.slug, post.img_hero)} alt={post.img_hero_alt} classname="w-full" />
-                <p className="img-credit">Crédit: {post.img_hero_credit}</p>
+                <AppImage src={join("blog", post.year, post.slug, post.img_header)} alt={post.img_header_alt} classname="w-full" />
+                <p className="img-credit">Crédit: {post.img_header_credit}</p>
             </div>
             <div className="post-container">
                 <div className="date">

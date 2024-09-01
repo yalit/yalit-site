@@ -10,8 +10,8 @@ export interface PostInformationInterface {
 }
 
 export interface PostInterface extends PostInformationInterface {
-    img_hero: string
-    img_hero_alt: string
-    img_hero_credit: string
+    img_header: string
+    img_header_alt: string
+    img_header_credit: string
     content: string
 }

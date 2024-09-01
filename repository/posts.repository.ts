@@ -59,9 +59,9 @@ function extractPost(file: string): PostInterface {
         summary: frontmatter.summary ?? '' as string,
         year,
         tags: frontmatter.tags as string[],
-        img_hero: frontmatter.img_hero as string ?? '',
-        img_hero_alt: frontmatter.img_hero_alt as string ?? '',
-        img_hero_credit: frontmatter.img_hero_credit as string ?? '',
+        img_header: frontmatter.img_header as string ?? '',
+        img_header_alt: frontmatter.img_header_alt as string ?? '',
+        img_header_credit: frontmatter.img_header_credit as string ?? '',
         content
     }
 }
