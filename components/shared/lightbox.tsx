@@ -68,9 +68,14 @@ export default function Lightbox({
       </div>
       {elemEnlighted && enlightedImg && (
         <div className="lightbox fixed inset-x-0 top-0 h-screen w-screen bg-black/80 flex justify-center items-center gap-5 z-[1000]">
-          <div onClick={goToPrevious}>
-            <FontAwesome icon="chevronLeft" className="h-10 w-10 fill-white" />
-          </div>
+          {images.length > 0 && (
+            <div onClick={goToPrevious}>
+              <FontAwesome
+                icon="chevronLeft"
+                className="h-10 w-10 fill-white"
+              />
+            </div>
+          )}
           <div className="w-[80%] h-[80%] relative">
             <AppImage
               src={enlightedImg}
@@ -84,9 +89,14 @@ export default function Lightbox({
               X
             </div>
           </div>
-          <div onClick={goToNext}>
-            <FontAwesome icon="chevronRight" className="h-10 w-10 fill-white" />
-          </div>
+          {images.length > 0 && (
+            <div onClick={goToNext}>
+              <FontAwesome
+                icon="chevronRight"
+                className="h-10 w-10 fill-white"
+              />
+            </div>
+          )}
         </div>
       )}
     </>
