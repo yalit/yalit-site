@@ -1,10 +1,11 @@
-This is the repository for my profesional website [https://yalit.be](https://yalit.be)
+This is the repository for my professional website [https://yalit.be](https://yalit.be)
 
 ## Getting Started
 
 The site is based on Next.js and is statically built
 
 ### Dev
+
 First, run the development server:
 
 ```bash
@@ -19,8 +20,8 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-
 ### Deploy
+
 To deploy simply run:
 
 ```bash
@@ -32,4 +33,3 @@ pnpm build
 # or
 bun build
 ```
-
