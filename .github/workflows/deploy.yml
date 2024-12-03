@@ -44,7 +44,7 @@ jobs:
         run: npm install -g pnpm
       - name: Install dependencies
         run: pnpm install
-      - name: Build with Gatsby
+      - name: Build with next
         run: PREFIX_PATHS=true pnpm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -62,4 +62,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
