@@ -1,0 +1,119 @@
+---
+title: AOC 2024 - Day 03 - Mull It Over
+slug: aoc-2024-day-03-mull-it-over
+date: 2024-12-3
+tags: [AOC, algorithm, python, regex]
+img_header: ./header.jpg
+img_header_alt: 
+img_header_credit: 
+summary: Still in pursuit of the Chief Historian, we end up in a warehouse office trying to decipher memory through regex...
+---
+
+import BlogImage from '../components/BlogImage'
+
+## new Day in the Advent Office
+
+Today, we are transported into the [North Pole Toboggan transport shop](https://adventofcode.com/2024/day/3) warehouse where it seems the computers are not behaving properly... 
+
+The _mildly flustered shopkeeper_ asks us if we would be able to look and fix the program run. After some look up, we understand that the memory is corrupted and that a special treatment needs to be applied...
+
+<BlogImage src="2024/aoc-2024-day-03-mull-it-over/mildly-flustered-shopkeeper.jpg" alt="example image..." />
+
+
+In today's coding adventure, we'll dive into *regex* capability and how to extract patterned information from within a sequence of characters (aka string 👍)
+
+### Part 1 - simple multiplications
+
+The memory is of the following form:
+```text
+xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))
+```
+
+As we understand, the only operations that need to be executed are the the ones following the following pattern:
+```text
+mul(X,Y)
+```
+where *X* and *Y* are both numbers between 1 and 3 digits
+
+The expected outcome of the program is to sum each operations where each non-corrupted operation would be `X*Y`
+
+The idea is to use regular expressions (regex) to extract from the string only the correct operations. For that, the regex, to use is the following:
+```text
+/mul\(\d{1-3},\d{1-3}\)/
+```
+There are multiple elements to consider here:
+- `mul` just says that we are searching all the chains of characters that are starting with the 3 letters `mul`
+- `\(` means that we are looking, after mul, to find the '(' character but as the '(' has a specific meaning in any regular expression, we need to escape it
+- `\d` means that we are looking at any digit (the number between 1 and 9 inclusive) => we could have also written `[1-9]`
+- `{1-3}` means that we need to find the previous character (here a digit) at least 1 time and maximum 3 times next to one another (it can be 3 completely different digits like 123)
+- the remaining is using the same kinds of pattern matching
+
+Knowing that regular expression, we can then find all the elements from the string, multiply them and them sum. For that, in python, we need to use the `re` module which is encompassing functions for regular expression handling.
+```python
+import re
+
+total = 0
+for m in re.findall(r"mul\(\d{1-3},\d{1-3}\)", string):
+    # let's remember that m is in the form mul(X,Y) so...
+    # use only part between brackets starting after the index and until the previous to last character in the string 
+    # and then splitting it over the ',' 
+    # and then transforming them into numbers 
+    X, Y = map(int, m[4:-1].split(','))
+    total += X * Y
+return total
+```
+
+
+### Part 2 - enabled multiplications
+
+The Part 2 introduces the concept of condition/enablement in the form of `do()` and `don't()`...
+
+Any `do()` enables any following operation to be executed and a `don't()` forbids any following operation to be executed until a new `do()` is seen. By default, we understand that the program starts with enabling the operations to happen
+
+The idea will be a bit the same, but we'll need to search for some other information within the regular expression, like so:
+```text
+/do\(\)|don't\(\)|mul\(\d{1-3},\d{1-3}\)/
+```
+Additional elements are introduced here:
+- the `|` character is a special character which means `or` => meaning that or we look at the pattern on the left or we look for the pattern on the right... so here we look of:
+    - for do()
+    - or for don't()
+    - or for mul(X,Y)
+- the others elements were already used within the part 1
+
+
+So, with the information, we need a way to enable the computation to happen, so let's take our script again and modify it a bit...
+```python
+import re
+
+total = 0
+enabled = True
+for m in re.findall(r"do\(\)|don't\(\)|mul\(\d{1-3},\d{1-3}\)", string):
+    # we need now to consider the other patterns that we search for and act for each of them
+    if m == "do()":
+        # here we enable the computation
+        enabled = True
+    elif m == "don't()":
+        # here we disable the computation
+        enabled = False
+    elif enabled:
+        # only in case the computation is enabled we perform it
+        X, Y = map(int, m[4:-1].split(','))
+        total += X * Y
+return total
+```
+
+## Conclusion
+I liked this day as it was a really good introduction to regular expression using some already notions of parsing and complexifying just a tiny bit for the part 2...
+
+For more Regex notions, you can visit the following sites:
+- [Regex 101](https://regexlearn.com/learn/regex101) => a nice interactive websites to introduce you to and dive into regex
+- [Regexr.com](https://regexr.com/) => a nice sandbox with some explanations and a capacity to test your regex against sample text
+
+## The Repository
+
+The following [repository](https://github.com/yalit/advent-of-code) will keep in the main branch all the code of this year resolution (and also presents the ones from the previous year I already solved... I'm still missing some years and days...)
+
+The code of my solution for this specific day can be seen [here](https://github.com/yalit/advent-of-code/blob/main/aoc2024/day_3/aoc.)
+
+
