@@ -23,6 +23,9 @@ a {
     @apply text-zinc-600 font-bold;
 }
 
+h1, h2, h3 {
+    @apply mt-4;
+}
 /* remodeling the container to remove the backdrop-filter which causes the position: fixed not to work for Lightbox */
 .container-perso {
     display: flex;
