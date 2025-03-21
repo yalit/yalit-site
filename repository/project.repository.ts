@@ -9,7 +9,7 @@ const ProjectRepository = {
     allInformation: (): ProjectInformation[] => {
         const files: string[] = getFilesFromFolder(join('projects'), 'mdx')
 
-        return files.map(extractProjectInformation)
+        return files.map(extractProjectInformation).sort((a: ProjectInformation, b: ProjectInformation )=> b.date - a.date)
     },
 }
 
@@ -20,7 +20,7 @@ function extractProjectInformation(file: string): ProjectInformation {
 
     let project: ProjectInformation = {
         title: data.title,
-        date: moment(data.date).format("DD-MM-YYYY"),
+        date: moment(data.date).format("YYYY-MM-DD"),
         slug: data.slug,
         tags: data.tags,
         summary: data.summary
