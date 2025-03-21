@@ -9,7 +9,11 @@ const ProjectRepository = {
     allInformation: (): ProjectInformation[] => {
         const files: string[] = getFilesFromFolder(join('projects'), 'mdx')
 
-        return files.map(extractProjectInformation).sort((a: ProjectInformation, b: ProjectInformation )=> b.date - a.date)
+        return files.map(extractProjectInformation).sort((a: ProjectInformation, b: ProjectInformation )=> {
+            if (b.date < a.date) return -1;
+            if (b.date > a.date) return 1;
+            return 0;
+        })
     },
 }
 
