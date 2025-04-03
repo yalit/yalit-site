@@ -1,6 +1,6 @@
 import { AppImage } from "@/components/appImage"
 import BlogImage from "@/components/blog/blogImage"
-import { CodeBlock } from "@/components/blog/codeBlock"
+import CodeBlock from "@/components/blog/codeBlock"
 import useBlogTagUrl from "@/hooks/useBlogTagUrl"
 import { PostInformationInterface, PostInterface } from "@/model/post.interface"
 import StaticProps from "@/model/staticprops.interface"

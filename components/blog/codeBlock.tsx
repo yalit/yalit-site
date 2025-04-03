@@ -12,14 +12,14 @@ export type CodeBlockProps = {
     };
 };
 
-export function CodeBlock(props: CodeBlockProps) {
+export default function CodeBlock(props: CodeBlockProps) {
     const { copied, copyToClipboard } = useCopyToClipboard();
     const className = props.children.props.className || "";
     const code = props.children.props.children.trim();
     const language = className.replace(/language-/, "");
 
     return (
-        <div className="code-block">
+        <p className="code-block">
             <button
                 className={classnames("copy-button", copied && "copied")}
                 onClick={() => copyToClipboard(code, 1000)}
@@ -32,7 +32,7 @@ export function CodeBlock(props: CodeBlockProps) {
             >
                 {code}
             </SyntaxHighlighter>
-        </div>
+        </p>
     );
 }
 
