@@ -9,7 +9,7 @@ img_header_credit: Y. Alsberge
 summary: The start of the custom Easyadmin repository was made on top of Symfony 5.4. It was time for an uplifting. A peek in what was done to update to 7.2 and the small changes to custom easyadmin code linked to it.
 ---
 
-import BlogImage from '../components/BlogImage'
+> This article is part of a series of Article around the customization of EasyAdmin within Symfony. You can find the list of [related articles](/blog/tag/custom-easy-admin) and the context of it in this article : [Symfony & EasyAdmin – space for extra functionalities](/blog/2022/symfony-easyadmin-space-for-extra-functionalities).
 
 ## Objectives
 
@@ -17,11 +17,9 @@ Where were we : the last installment of this series was to define how to add cus
 
 Some years later, it's time to freshen it up and continue the update of the admin with some other functionalities. But, first, let's update to 7.2...
 
--- <BlogImage src="2025/custom-easy-admin-update-to-symfony-7-2/header.jpg" alt="example image..." />
-
 ## Update to 7.2
 
-First, to be on the latest page, we need to bump the minimum requirement of PHP to PHP v8.2. Let's update the composer.json first for that...
+First, let's keep PHP up-to-date, so let's bump the minimum requirement of PHP to PHP v8.2. Let's update the composer.json first for that...
 
 ```json
 "require": {
@@ -105,9 +103,9 @@ Other changes:
 - No more use of a the Workflow bundle anymore, direct use of Voters to define whether the actions can be done from the Admin controller
 - No more use of a custom "ProcessHandler" but usage of the built-in Messenger. 
 
-## Change to the custom field defined
+## Change to the custom field
 
-In the previous versions, the custom field used to showcase how to display custom data or handle a specific type of data was the TranslatedTextField. It has been replaced by an `Enumfield. This new custom field allows to display properly the Enum values and to handle the translation of the Enum values.
+In the previous versions, the custom field used to showcase how to display custom data or handle a specific type of data was the `TranslatedTextField`. It has been replaced by an `Enumfield`. This new custom field allows to display properly the Enum values and to handle the translation of the Enum values.
 
 ```php
 /**
@@ -233,7 +231,7 @@ So, multiple elements:
 3. the response is using the latest feature in the EasyAdmin bundle : the [PrettyUrls](https://symfony.com/bundles/EasyAdminBundle/current/crud.html#crud-routes) and the fact that all the possible routes are now generated within the bundle and so we can use the `admin_post_index` route to redirect to the index page of the Post entity
 4. the controller can then be used normally to trigger an actual process : here the publishing of the post.
 
-### The Repository
+## The Repository
 
 The [repository of the customization](https://github.com/yalit/custom-easy-admin) will keep in the main branch all the updates made on the easyadmin.
 
@@ -245,8 +243,8 @@ Below you’ll see the list of the different posts linked to one specific update
 
 1. Only Admin can update (any CRUD operation) Users
 2. Post Index page : new post actions usable in 3 parts:
-1. Fields customization
-2. Access restriction
-3. Custom entity actions
+3. Fields customization
+4. Access restriction
+5. Custom entity actions
 
 \> All pictures of this article are of the making of the author and some can be seen here : [Rêveries](/reveries)

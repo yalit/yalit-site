@@ -19,7 +19,7 @@ export default function CodeBlock(props: CodeBlockProps) {
     const language = className.replace(/language-/, "");
 
     return (
-        <p className="code-block">
+        <div className="code-block">
             <button
                 className={classnames("copy-button", copied && "copied")}
                 onClick={() => copyToClipboard(code, 1000)}
@@ -32,7 +32,7 @@ export default function CodeBlock(props: CodeBlockProps) {
             >
                 {code}
             </SyntaxHighlighter>
-        </p>
+        </div>
     );
 }
 
