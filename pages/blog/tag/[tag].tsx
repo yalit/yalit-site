@@ -28,6 +28,9 @@ export function getStaticPaths() {
     const tags = new Set<string>()
 
     postInfos.forEach(postInfo => {
+        if (!postInfo.tags) {
+            return
+        }
         postInfo.tags.forEach(tag => tags.add(tag))
     })
 
