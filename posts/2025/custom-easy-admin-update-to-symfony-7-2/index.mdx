@@ -1,0 +1,251 @@
+---
+title: Custom Easy Admin - update to Symfony 7.2
+slug: custom-easy-admin-update-to-symfony-7-2
+date: 2025-04-02
+img_header: ./header.jpg
+img_header_alt: Ancient baths turned into museum
+img_header_credit: Y. Alsberge
+summary: The start of the custom Easyadmin repository was made on top of Symfony 5.4. It was time for an uplifting. A peek in what was done to update to 7.2 and the small changes to custom easyadmin code linked to it.
+---
+
+import BlogImage from '../components/BlogImage'
+
+## Objectives
+
+Where were we : the last installment of this series was to define how to add custom entity action on the Post EasyAdmin Controller.
+
+Some years later, it's time to freshen it up and continue the update of the admin with some other functionalities. But, first, let's update to 7.2...
+
+-- <BlogImage src="2025/custom-easy-admin-update-to-symfony-7-2/header.jpg" alt="example image..." />
+
+## Update to 7.2
+
+First, to be on the latest page, we need to bump the minimum requirement of PHP to PHP v8.2. Let's update the composer.json first for that...
+
+```json
+"require": {
+    "php": ">=8.2",
+    ...
+}
+```
+
+## Change outside EasyAdmin
+
+### Use of PHP Enums
+First, there are some changes to the models. We still need roles and statuses, but now with the updates of PHP8, we can use Enums now instead of class constants.
+
+For the UserRoles, let's define a `UserRole` Enum
+
+```php
+enum UserRole : string
+{
+    case AUTHOR = "ROLE_AUTHOR";
+    case ADMIN = "ROLE_ADMIN";
+    case PUBLISHER = "ROLE_PUBLISHER";
+
+    public static function all(): array
+    {
+        return array_combine(array_map(fn($e) => $e->value, self::cases()), array_map(fn($e) => $e->value, self::cases()));
+    }
+}
+```
+
+Enums can't yet be used in the security framework of Symfony, so we need to use the string value of the Enum when dealing with the roles, like:
+
+As for the status of the Posts, we can also use another Enum : `PostStatus`
+
+```php
+enum PostStatus: string {
+    case DRAFT = 'draft';
+    case IN_REVIEW = 'in_review';
+    case PUBLISHED = 'published';
+    case ARCHIVED = 'archived';
+}
+```
+
+Doctrine is now handling properly the Enums and so they can be setup like this in the Post Entity:
+
+```php
+class Post {
+    ...
+    #[ORM\Column(type: Types::STRING, enumType: PostStatus::class)]
+    private PostStatus $status = PostStatus::DRAFT;
+    ...
+}
+```
+
+This will enable the direct usage of the Enums when getting or setting the status.
+
+### New PostStatusChanges relation
+
+Before the change, the different dates of the statuses where dedicated dates on the Post entity but it was a bit messy and created the issue that if there was a need to add a new status, a new property was needed.
+
+Instead, let's create a new Entity that will hold all the status changes and so their dates: `PostStatusChanges`.
+
+It's a simple entity that will be comprised of the following properties:
+``` php
+class PostStatusChange
+{
+    private int $id;
+
+    private DateTimeImmutable $time;
+    private ?Post $post = null;
+    private ?User $user = null;
+    private ?PostStatus $previousStatus = null;
+    private PostStatus $currentStatus = PostStatus::DRAFT;
+    ...
+}
+```
+This allows to store any change and when we need to retrieve a status, it's possible to get it from the last change. The current Status is anyhow also stored directly on the Post entity.
+
+### Miscellaneous
+
+Other changes:
+- No more use of a the Workflow bundle anymore, direct use of Voters to define whether the actions can be done from the Admin controller
+- No more use of a custom "ProcessHandler" but usage of the built-in Messenger. 
+
+## Change to the custom field defined
+
+In the previous versions, the custom field used to showcase how to display custom data or handle a specific type of data was the TranslatedTextField. It has been replaced by an `Enumfield. This new custom field allows to display properly the Enum values and to handle the translation of the Enum values.
+
+```php
+/**
+ * Custom Field to allow for the display and usage of an Enum as a value
+ */
+class EnumField implements FieldInterface
+{
+    use FieldTrait;
+
+    public static function new(string $propertyName, ?string $label = null): self
+    {
+        return (new self())
+            ->setProperty($propertyName)
+            ->setLabel($label)
+            // add a specific template for the field
+            ->setTemplatePath('admin/field/enum_field.html.twig')
+            //define the specific form type for the field
+            ->setFormType(EnumType::class)
+            ->setFormTypeOption('attr.class', 'width-inherit')
+            //set the way the value is found
+            ->setFormTypeOption('choice_label', static function (\BackedEnum $choice): string {
+                return (string) $choice->value;
+            })
+            ;
+    }
+
+    public function setEnumClass(string $enumClass): self
+    {
+        if (!is_subclass_of($enumClass, BackedEnum::class)) {
+            throw new InvalidArgumentException(sprintf("The enum class %s should be a Backed Enum", $enumClass));
+        }
+        $this->setFormTypeOption('class', $enumClass);
+
+        return $this;
+    }
+}
+```
+
+It can be used liked this in a CrudController:
+
+```php
+    public function configureFields(string $pageName): iterable
+    {
+        ...
+        // Set up a custom field for the display of the status on the index
+        yield EnumField::new('status')->hideOnForm()->setEnumClass(PostStatus::class);
+        ...
+    }
+
+```
+
+## Change to the Action setup
+
+In the EasyAdmin part, a notable change is the use of dedicated Action class and controllers to extract that logic into dedicated classes.
+
+But before, what is an action in EasyAdmin ? We could say the following:
+
+It :
+- has a dedicated name & display name
+- defines whether it's a global action or an entity one
+- triggers a process (whether it's just a redirection or an actual change in the backend)
+
+So the idea is to extract the Action information into one class (an "Action" class) and the process into a dedicated controller. This allows to have a better separation of the logic and to be able to reuse the Action in different controllers.
+
+### Action class
+The Action class is a simple class that will hold the information about the action. It will be used to define the action in the CrudController and to trigger the process in the controller.
+
+```php
+class PublishPostAction
+{
+    public const NAME = 'post_publish';
+    public const LABEL = 'Publish';
+
+    public static function create(): Action
+    {
+        return Action::new(self::NAME, self::LABEL)
+            ->linkToRoute(PostPublishController::CRUD_ROUTE_NAME,
+                            fn(Post $post) => ['id' => $post->getId()])
+            ->displayAsForm()
+            ;
+    }
+}
+```
+
+Here, the `PublishPostAction` class defines the action name and label.
+
+The `linkToRoute` method is used to define the route and the parameters that will be passed to the controller.
+
+The `displayAsForm` method setup the fact that the action should be rendered as form thus sending a POST request to the route defined in the `linkToRoute` method (it's a new feature since the v4.24.5). The only issue with the displayAsForm is that it currently works only for global Actions and so the rendering of the form is not done when the actions are shown as a dropdown and not properly done when the actions are shown inline. I've created a [PR to EasyAdmin](https://github.com/EasyCorp/EasyAdminBundle/pull/6894) to try to address it
+
+
+### Controller
+
+In Symfony, you can define controllers as callable by using the __invoke function or simply define a method and apply a route to it. Here, let's use the __invoke function to define the controller called function.
+
+```php
+#[Route('/admin/post/{id}/publish', name: PostPublishController::CRUD_ROUTE_NAME, methods: ['POST'])]
+class PostPublishController extends AbstractCrudController
+{
+    public const CRUD_ROUTE_NAME = 'admin_post_publish';
+
+    public function __construct(private readonly MessageBusInterface $messageBus)
+    {}
+
+    public function __invoke(Post $post): Response
+    {
+        $this->messageBus->dispatch(new PublishPost($post));
+        $this->addFlash('success', sprintf('Post %s published.', $post->getTitle()));
+
+        return $this->redirectToRoute('admin_post_index');
+    }
+
+    public static function getEntityFqcn(): string
+    {
+        return Post::class;
+    }
+}
+```
+
+So, multiple elements:
+1. the Route definition is applied at the class level which will trigger the fact that the _invoke method will be called when the route is triggered
+2. the controller extends the AbstractCrudController which allows to use the EasyAdmin features. We could for instance add the AdminContext class as a dependency of the function to allow to get specific EasyAdmin features
+3. the response is using the latest feature in the EasyAdmin bundle : the [PrettyUrls](https://symfony.com/bundles/EasyAdminBundle/current/crud.html#crud-routes) and the fact that all the possible routes are now generated within the bundle and so we can use the `admin_post_index` route to redirect to the index page of the Post entity
+4. the controller can then be used normally to trigger an actual process : here the publishing of the post.
+
+### The Repository
+
+The [repository of the customization](https://github.com/yalit/custom-easy-admin) will keep in the main branch all the updates made on the easyadmin.
+
+## The blog series
+
+The goal is also for me to document the changes made in the repository while linking them to the [documentation of EasyAdmin](https://symfony.com/doc/current/EasyAdminBundle/index.html) to enable anyone to make the connection between what I’m doing and what is existing in EasyAdmin…
+
+Below you’ll see the list of the different posts linked to one specific update in the custom EasyAdmin (each post should correspond to one specific branch in the repository):
+
+1. Only Admin can update (any CRUD operation) Users
+2. Post Index page : new post actions usable in 3 parts:
+1. Fields customization
+2. Access restriction
+3. Custom entity actions
+
+\> All pictures of this article are of the making of the author and some can be seen here : [Rêveries](/reveries)
