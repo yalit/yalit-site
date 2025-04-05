@@ -67,12 +67,13 @@ h3 {
 * Index
 * ***************/
 .summary {
+    @apply px-5 sm:px-8;
     .title {
         @apply mb-8 text-3xl font-bold text-zinc-800 sm:text-4xl;
     }
 
     .description {
-        @apply text-base md:text-lg text-zinc-600 leading-8;
+        @apply text-base md:text-lg text-zinc-600 leading-6 sm:leading-8;
 
         &>div {
             @apply flex flex-col md:flex-row justify-between items-center gap-10;
@@ -93,7 +94,7 @@ h3 {
 }
 
 .banner {
-    @apply my-20 flex justify-center gap-5 overflow-visible py-4 sm:gap-8;
+    @apply my-20 flex justify-center gap-5 overflow-visible py-4 sm:gap-8 overflow-hidden sm:overflow-visible;
 
     .bannerImage {
         @apply aspect-[9/10] w-44 flex-none rounded-xl bg-zinc-100 sm:w-72 sm:rounded-2xl;
