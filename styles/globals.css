@@ -40,7 +40,7 @@ h3 {
     margin-right: auto;
     min-height: 100vh;
     width: 100vw;
-    max-width: 80rem;
+    max-width: 65rem;
     --tw-bg-opacity: 1;
     background-color: rgb(255 255 255 / var(--tw-bg-opacity));
     --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
@@ -67,13 +67,17 @@ h3 {
 * Index
 * ***************/
 .summary {
-    @apply px-5 sm:px-8;
+    @apply px-5 md:px-8;
     .title {
-        @apply mb-8 text-3xl font-bold text-zinc-800 sm:text-4xl;
+        @apply mb-8 text-3xl font-bold text-zinc-800 md:text-4xl;
+
+        &.blog {
+            @apply text-center md:text-left;
+        }
     }
 
     .description {
-        @apply text-base md:text-lg text-zinc-600 leading-6 sm:leading-8;
+        @apply text-base md:text-lg text-zinc-600 leading-6 md:leading-8;
 
         &>div {
             @apply flex flex-col md:flex-row justify-between items-center gap-10;
@@ -88,16 +92,16 @@ h3 {
         }
 
         .rounded_img {
-            @apply aspect-[9/10] w-40 flex-none overflow-hidden rounded-xl bg-zinc-100 sm:w-64 sm:rounded-2xl;
+            @apply aspect-[9/10] w-40 flex-none overflow-hidden rounded-xl bg-zinc-100 md:w-64 md:rounded-2xl;
         }
     }
 }
 
 .banner {
-    @apply my-20 flex justify-center gap-5 overflow-visible py-4 sm:gap-8 overflow-hidden sm:overflow-visible;
+    @apply my-20 flex justify-center gap-5 overflow-visible py-4 md:gap-8 overflow-hidden md:overflow-visible;
 
     .bannerImage {
-        @apply aspect-[9/10] w-44 flex-none rounded-xl bg-zinc-100 sm:w-72 sm:rounded-2xl;
+        @apply aspect-[9/10] w-44 flex-none rounded-xl bg-zinc-100 md:w-72 md:rounded-2xl;
     }
 }
 
@@ -115,10 +119,6 @@ h3 {
 
         .post-date {
             @apply relative flex order-first gap-3 items-center text-base text-zinc-400 w-60 md:p-5 mb-4 md:mb-0;
-
-            p:first-child {
-                @apply md:hidden;
-            }
         }
 
         .post-details {
@@ -130,6 +130,10 @@ h3 {
 
             .title {
                 @apply text-lg font-semibold text-zinc-800 mb-3;
+            }
+
+            .summary {
+                @apply px-0 md:px-5
             }
 
             .read-more {
@@ -160,11 +164,11 @@ h3 {
     }
 
     .tags {
-        @apply flex items-center gap-1 text-zinc-400 text-sm;
+        @apply flex flex-wrap items-center gap-1 text-zinc-400 text-sm;
     }
 
     .title {
-        @apply text-3xl font-bold text-zinc-800 sm:text-4xl my-8;
+        @apply text-3xl font-bold text-zinc-800 md:text-4xl my-8;
     }
 
     img {
@@ -172,19 +176,19 @@ h3 {
     }
 
     h2 {
-        @apply text-2xl sm:text-3xl font-bold text-zinc-800 mb-3;
+        @apply text-2xl md:text-3xl font-bold text-zinc-800 mb-3;
     }
 
     h3 {
-        @apply text-xl sm:text-2xl font-bold text-zinc-800 mb-2;
+        @apply text-xl md:text-2xl font-bold text-zinc-800 mb-2;
     }
 
     h4 {
-        @apply text-lg sm:text-xl font-bold text-zinc-800 mb-1;
+        @apply text-lg md:text-xl font-bold text-zinc-800 mb-1;
     }
 
     h5 {
-        @apply text-base sm:text-lg font-bold text-zinc-800 mb-1;
+        @apply text-base md:text-lg font-bold text-zinc-800 mb-1;
     }
 
     p {
@@ -236,11 +240,12 @@ h3 {
     }
 
     code {
-        @apply text-sm sm:text-base;
+        @apply text-sm md:text-base;
     }
 }
 
 .code-block {
+    @apply text-sm md:text-base;
     position: relative;
 
     .copy-button {

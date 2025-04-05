@@ -10,13 +10,13 @@ export default function BlogPostsList({ posts }: BlogPostsListProps) {
     const { generate: generateBlogPostUrl } = useBlogUrl()
 
     return (
-        <div className="blog-posts mx-auto w-full max-w-3xl md:max-w-5xl md:p-8 text-sm">
+        <div className="blog-posts mx-auto w-full max-w-3xl md:max-w-5xl md:p-8 text-sm px-5 md:px-8">
             {posts.map((post) => {
                 return (
                     <Link href={generateBlogPostUrl(post.year, post.slug)} key={"post-" + post.slug}>
                         <div key={"post-" + post.slug} className="post">
                             <div className="post-date">
-                                <p className="h-4 w-0.5 rounded-full bg-zinc-200"></p>
+                                <p className="h-4 w-0.5 rounded-full bg-zinc-200 md:hidden"></p>
                                 <p>{post.date}</p>
                             </div>
                             <div className="post-details">

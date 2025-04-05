@@ -17,7 +17,7 @@ export default function Layout({Component, pageProps}: AppProps) {
                     <Navigation type="top"/>
                 </header>
 
-                <main className="pt-[20px] sm:pt-[80px] flex-1">
+                <main className="pt-[20px] md:pt-[80px] flex-1">
                     <Component {...pageProps} />
                 </main>
 

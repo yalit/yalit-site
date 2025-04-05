@@ -1,22 +1,20 @@
 import BlogPostsList from "@/components/blog/BlogPostsList"
-import { PostInformationInterface } from "@/model/post.interface"
+import {PostInformationInterface} from "@/model/post.interface"
 import StaticProps from "@/model/staticprops.interface"
 import PostRepository from "@/repository/posts.repository"
 
 
 type BlogCategoryProps = { tag: string, posts: PostInformationInterface[] }
 
-export default function BlogCategory({ posts, tag }: BlogCategoryProps) {
+export default function BlogCategory({posts, tag}: BlogCategoryProps) {
     return (
         <>
-            <div className="px-8">
-                <div className="summary">
-                    <div className="title">
-                        <p>All articles for : {tag}</p>
-                    </div>
+            <div className="summary">
+                <div className="title blog">
+                    <p>All articles for : {tag}</p>
                 </div>
             </div>
-            <BlogPostsList posts={posts} />
+            <BlogPostsList posts={posts}/>
         </>
     )
 }
@@ -36,7 +34,7 @@ export function getStaticPaths() {
 
     return {
         paths: Array.from(tags).map((tag: string) => (
-            { params: { tag } }
+            {params: {tag}}
         )),
         fallback: false
     }
@@ -45,6 +43,6 @@ export function getStaticPaths() {
 export async function getStaticProps(context: { params: { tag: string } }): Promise<StaticProps<BlogCategoryProps>> {
     const posts = PostRepository.allInformationByDate('DESC')
 
-    return { props: { tag: context.params.tag, posts: posts.filter(p => p.tags.includes(context.params.tag)) } }
+    return {props: {tag: context.params.tag, posts: posts.filter(p => p.tags.includes(context.params.tag))}}
 }
 
