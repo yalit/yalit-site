@@ -21,7 +21,7 @@ export default function ProjectsListProjec({ project }: ProjectsListProjectProps
                 </div>
                 <div className="tags mb-3">
                     <div className="tags__title mb-2 font-semibold text-xl text-gray-800 lg:border-gray-800 lg:border-l-4 lg:pl-2">Tags</div>
-                    <div className="tags_values flex gap-2 flex-wrap">
+                    <div className="tags_values flex gap-2 flex-wrap mb-3">
                         {project.tags.map(tag => <div className="px-2 py-1 bg-gray-800 rounded text-gray-50 text-xs uppercase font-semibold" key={"tag_" + tag}>{tag}</div>)}
                     </div>
                 </div>

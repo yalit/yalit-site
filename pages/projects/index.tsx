@@ -2,14 +2,14 @@ import ProjectsList from "@/components/projects/ProjectsList"
 import classnames from "@/lib/classnames"
 import ProjectInformation from "@/model/project.interface"
 import ProjectRepository from "@/repository/project.repository"
-import { useEffect, useState } from "react"
+import {useEffect, useState} from "react"
 
 type ProjectsProps = {
     projects: ProjectInformation[],
     tags: string[]
 }
 
-export default function Projects({ projects, tags }: ProjectsProps) {
+export default function Projects({projects, tags}: ProjectsProps) {
     const [selectedTags, setSelectedTags] = useState<string[]>([])
     const [displayedProjects, setDisplayedProjects] = useState<ProjectInformation[]>(projects)
 
@@ -44,7 +44,7 @@ export default function Projects({ projects, tags }: ProjectsProps) {
     };
 
     return (
-        <div className="px-8">
+        <>
             <div className="summary">
                 <div className="title">Crafting</div>
                 <div className="description ml-10">
@@ -52,7 +52,7 @@ export default function Projects({ projects, tags }: ProjectsProps) {
                 </div>
             </div>
 
-            <div className="flex items-center gap-2 my-12 flex-wrap">
+            <div className="flex items-center gap-2 my-6 md:my-12 flex-wrap px-5 md:px-8">
                 <p className="font-bold text-lg">Filter by technology </p>
                 <button className={tagClassName("")} onClick={() => setSelectedTags([])}>
                     All
@@ -67,8 +67,8 @@ export default function Projects({ projects, tags }: ProjectsProps) {
                     </button>
                 ))}
             </div>
-            <ProjectsList projects={displayedProjects} />
-        </div>
+            <ProjectsList projects={displayedProjects}/>
+        </>
     )
 }
 
@@ -80,6 +80,6 @@ export function getStaticProps(): { props: ProjectsProps } {
     projects.forEach(project => project.tags.forEach(tag => tags.add(tag)))
 
     return {
-        props: { projects, tags: Array.from(tags).toSorted() },
+        props: {projects, tags: Array.from(tags).toSorted()},
     }
 }
