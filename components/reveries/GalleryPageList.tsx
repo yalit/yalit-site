@@ -9,7 +9,7 @@ export default function GalleryList({ galleries, categories = [] }: GalleryListP
     const { generate } = useGalleryUrl()
     return (
         <>
-            <div className="page-title text-center text-4xl font-bold mt-[-50px] mb-4">Rêveries</div>
+            <div className="page-title text-center text-4xl font-bold md:mt-[-50px] mb-4">Rêveries</div>
             {categories.length > 0 && (
                 <div className="page-sub-title text-center text-2xl font-bold mb-8">Catégories : {categories.map(c => c.slice(0, 1).toUpperCase() + c.slice(1)).join(' / ')}</div>
             )}
