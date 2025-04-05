@@ -291,7 +291,7 @@ h3 {
         }
 
         .projects__list__project {
-            @apply w-1/2 px-4 border-gray-400 pt-4 pb-16 cursor-pointer;
+            @apply w-1/2 px-4 border-gray-400 pt-4 pb-16 cursor-pointer mb-10;
 
             &:hover {
                 @apply border-blue-800 bg-blue-50;
