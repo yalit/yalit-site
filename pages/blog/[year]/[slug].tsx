@@ -8,11 +8,13 @@ import PostRepository from "@/repository/posts.repository"
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote"
 import { serialize } from "next-mdx-remote/serialize"
 import { join } from "path"
+import CartoonRow from "@/components/blog/cartoonRow";
 
 type BlogPageProps = { post: PostInterface | null, mdxSource: MDXRemoteSerializeResult }
 
 const availableComponents = {
     BlogImage,
+    CartoonRow,
     pre: (props: any) => <CodeBlock {...props} />,
 }
 
