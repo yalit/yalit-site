@@ -29,6 +29,7 @@ export default function CodeBlock(props: CodeBlockProps) {
             <SyntaxHighlighter
                 language={language}
                 showLineNumbers={true}
+                customStyle={{ fontSize: '0.85rem' }}
             >
                 {code}
             </SyntaxHighlighter>

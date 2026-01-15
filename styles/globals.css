@@ -9,6 +9,8 @@
 html {
     @apply bg-zinc-50;
 
+	scroll-behavior: smooth;
+
     font-family:
         ui-sans-serif,
         system-ui,

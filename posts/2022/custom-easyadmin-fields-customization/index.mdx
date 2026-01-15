@@ -23,11 +23,11 @@ In this first, out of three posts here, we’ll concentrate ourselves on how to 
 To allow the customization of the data display in our listing, we’ll need to look at the following functionalities of [EasyAdmin](https://symfony.com/bundles/EasyAdminBundle/current/index.html)
 
 - [Unmapped fields on index](#unmapped-fields)
-- [Custom fields on index](#custom-fields)
+- [Custom fields on index](#custom-field)
 
 <BlogImage src="2022/custom-easyadmin-thou-shall-rule-the-posts-listing-1-fields-customization/sky.jpg" alt="Night sky with Nebula" />
 
-## <a name="unmapped-fields"></a>Unmapped fields
+## Unmapped fields
 
 On the Post entity, there is a date for each status, being the date on which the Post arrived in that state. So, there is a date for the creation (draft), a date for the push in review, a date for the Publishing and a date for the Cancellation (in case of).
 
@@ -92,7 +92,7 @@ Indeed… the “magic” of EasyAdmin is there to help us…. As there is no �
 
 <BlogImage src="2022/custom-easyadmin-thou-shall-rule-the-posts-listing-1-fields-customization/field.jpg" alt="Green field below a blue sky" />
 
-## <a name="custom-fields"></a> Custom Field
+## Custom Field
 
 Linked to the status date, we do have an issue with the display of the status itself… The exact value in DB is something link post.status.draft… not very user friendly.
 This value is to allow any translation to benefit from a trans-locale value on the status… But currently, if we use the EasyAdmin [TextField](https://symfony.com/bundles/EasyAdminBundle/current/fields/TextField.html), it will not display the translated content but well the raw value from the DB.
