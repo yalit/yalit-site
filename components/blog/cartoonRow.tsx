@@ -13,13 +13,12 @@ export default function CartoonRow({id, title, images, children}: CartoonRomProp
         "grid grid-cols-3 gap-3 w-full bg-white mt-5",
     )
 
-    console.log(images)
     return (
         <div>
             <h3 id={id}>{title}</h3>
             <div className={block_classes}>
                 {images.map((image, index) => {
-                    return <AppImage src={image} alt={""} />
+                    return <AppImage key={"img-"+index} src={image} alt={""} />
                 })}
             </div>
             <div className="italic p-2 text-center">{children}</div>
