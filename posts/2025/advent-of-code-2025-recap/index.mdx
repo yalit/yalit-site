@@ -1,0 +1,392 @@
+---
+title: Advent of Code 2025 - Recap
+slug: advent-of-code-2025-recap
+date: 2025-12-13
+tags: [adventofcode, development, python, challenge, ai, image, story]
+img_header: ./advent_of_code.png
+img_header_alt: 
+img_header_credit: 
+summary: This year it's an Advent of Code a bit different that unfolded. Following some changes, it's now only 12 days instead of 24. It helps with the sleep at the end of December! Let's dive into the event with some images and story
+---
+import BlogImage from "../components/blogImage";
+import CartoonRow from "../components/cartoonRow";
+
+> The Advent of code is a set of daily programming challenges proposed by E. Wastl during the month of December. <br />All information here : [adventofcode.com/](https://adventofcode.com/)<br />Disclaimer : all the images in this post are AI generated based on the day story
+
+<div class="italic">
+The Elves have good news and bad news.
+
+The good news is that they've discovered project management! This has given them the tools they need to prevent their usual Christmas emergency. For example, they now know that the North Pole decorations need to be finished soon so that other critical tasks can start on time.
+The bad news is that they've realized they have a different emergency: according to their resource planning, none of them have any time left to decorate the North Pole!
+
+To save Christmas, the Elves need you to <span class="font-bold">finish decorating the North Pole by December 12th.</span>
+</div>
+
+- [Day 01 : Secret Entrance](#day01)
+- [Day 02 : Gift Shop](#day02)
+- [Day 03 : Lobby](#day03)
+- [Day 04 : Printing Department](#day04)
+- [Day 05 : Cafeteria](#day05)
+- [Day 06 : Trash Compactor](#day06)
+- [Day 07 : Teleporter Hub](#day07)
+- [Day 08 : Playground](#day08)
+- [Day 09 : Movie Theater](#day09)
+- [Day 10 : Factory](#day10)
+- [Day 11 : Reactor](#day11)
+- [Day 12 : Christmas Trees](#day12)
+
+<CartoonRow id="day01" title="Day 1: Secret Entrance" images={["blog/2025/advent-of-code-2025-recap/day_01.png", "blog/2025/advent-of-code-2025-recap/day_01bis.png","blog/2025/advent-of-code-2025-recap/day_01ter.png"]}>
+    You arrive at the secret entrance to the North Pole base ready to start decorating. Unfortunately, the password seems to have been changed, so you can't get in. A document taped to the wall helpfully explains:
+    "Due to new security protocols, the password is locked in the safe below. Please see the attached document for the new combination."
+
+    The safe has a dial with only an arrow on it; around the dial are the numbers 0 through 99 in order. As you turn the dial, it makes a small click noise as it reaches each number.
+
+    You're sure that's the right password, but the door won't open. You knock, but nobody answers. You build a snowman while you think.
+
+    As you're rolling the snowballs for your snowman, you find another security document that must have fallen into the snow:
+
+    "Due to newer security protocols, please use password method 0x434C49434B until further notice."
+</CartoonRow>
+
+Day 01 was an appetizer... Simple arithmetic and modulo computation...
+
+The goal is to go left and right a number X of times around a clock which has 100 clicks and compute the number on which you land or the number of times you go past 0.\
+It means that you could be on the click 90 and needed to "right" (so towards 100) 50 times... As a clock, you will not go to 101 after 100 but to 1... That's where the modulo intervenes and you can use it as such:
+
+```python
+# this ensures that new_click will always be under 100 as
+# the modulo is the remainder of the value on the left when divided by the value on the right
+new_click = (90 + 50)  % 100 # = 39 (which is 40 if you start from 0 which is the case in computer world ;-))
+```
+
+**Task** : [here (AOC)](https://adventofcode.com/2025/day/1)\
+**Code** : [here (Github)](https://github.com/yalit/advent-of-code/blob/main/aoc2025/day_1/aoc.py)
+
+<CartoonRow id="day02" title="Day 2: Gift Shop" images={["blog/2025/advent-of-code-2025-recap/day_02.png", "blog/2025/advent-of-code-2025-recap/day_02bis.png","blog/2025/advent-of-code-2025-recap/day_02ter.png"]}>
+    You get inside and take the elevator to its only other stop: the gift shop. "Thank you for visiting the North Pole!" gleefully exclaims a nearby sign. You aren't sure who is even allowed to visit the North Pole, but you know you can access the lobby through here, and from there you can access the rest of the North Pole base.
+
+    As you make your way through the surprisingly extensive selection, one of the clerks recognizes you and asks for your help.
+    As it turns out, one of the younger Elves was playing on a gift shop computer and managed to add a whole bunch of invalid product IDs to their gift shop database! Surely, it would be no trouble for you to identify the invalid product IDs for them, right?
+
+    The clerk quickly discovers that there are still invalid IDs in the ranges in your list. Maybe the young Elf was doing other silly patterns as well?
+</CartoonRow>
+
+Day 02, still an easy feature... Some ranges and number comparison...
+
+The goal of the day is to identify invalid ID in specific ranges with specific criteria for valid/invalid IDs : 
+- Invalid when repeated numbers one after the other
+- Invalid when a subset of numbers are repeated X times within the ID
+
+**Task** : [here (AOC)](https://adventofcode.com/2025/day/2)\
+**Code** : [here (Github)](https://github.com/yalit/advent-of-code/blob/main/aoc2025/day_2/aoc.py)
+
+<CartoonRow id="day03" title="Day 3: Lobby" images={["blog/2025/advent-of-code-2025-recap/day_03.png", "blog/2025/advent-of-code-2025-recap/day_03bis.png","blog/2025/advent-of-code-2025-recap/day_03ter.png"]}>
+    You descend a short staircase, enter the surprisingly vast lobby, and are quickly cleared by the security checkpoint. When you get to the main elevators, however, you discover that each one has a red light above it: they're all offline.
+    "Sorry about that," an Elf apologizes as she tinkers with a nearby control panel. "Some kind of electrical surge seems to have fried them. I'll try to get them online soon."
+
+    You explain your need to get further underground. "Well, you could at least take the escalator down to the printing department, not that you'd get much further than that without the elevators working. That is, you could if the escalator weren't also offline."
+    "But, don't worry! It's not fried; it just needs power. Maybe you can get it running while I keep working on the elevators."
+
+    The escalator doesn't move. The Elf explains that it probably needs more joltage to overcome the static friction of the system and hits the big red "joltage limit safety override" button. You lose count of the number of times she needs to confirm "yes, I'm sure" and decorate the lobby a bit while you wait.
+    Now, you need to make the largest joltage by turning on exactly twelve batteries within each bank.
+</CartoonRow>
+
+Day 03, playing with number and ranges and the `max` function in python...
+
+Within a list of numbers, the goal was to determine the maximum number that could be writtent with numbers from left to right... \
+The only trick was to ensure to look within the correct slice of the inputs to ensure that you were getting the maximum possible.
+
+**Task** : [here (AOC)](https://adventofcode.com/2025/day/3)\
+**Code** : [here (Github)](https://github.com/yalit/advent-of-code/blob/main/aoc2025/day_3/aoc.py)
+
+<CartoonRow id="day04" title="Day 4: Printing Department" images={["blog/2025/advent-of-code-2025-recap/day_04.png", "blog/2025/advent-of-code-2025-recap/day_04bis.png","blog/2025/advent-of-code-2025-recap/day_04ter.png"]}>
+    You ride the escalator down to the printing department. They're clearly getting ready for Christmas; they have lots of large rolls of paper everywhere, and there's even a massive printer in the corner (to handle the really big print jobs).\
+    Decorating here will be easy: they can make their own decorations. What you really need is a way to get further into the North Pole base while the elevators are offline.
+
+    "Actually, maybe we can help with that," one of the Elves replies when you ask for help. "We're pretty sure there's a cafeteria on the other side of the back wall. If we could break through the wall, you'd be able to keep moving. It's too bad all of our forklifts are so busy moving those big rolls of paper around."\
+    If you can optimize the work the forklifts are doing, maybe they would have time to spare to break through the wall.
+
+    Now, the Elves just need help accessing as much of the paper as they can.\
+    Once a roll of paper can be accessed by a forklift, it can be removed. Once a roll of paper is removed, the forklifts might be able to access more rolls of paper, which they might also be able to remove. How many total rolls of paper could the Elves remove if they keep repeating this process?
+</CartoonRow>
+
+Day 04, first time that we have a coordinated map of elements to go through like:
+```text
+..@@.@@@@.
+@@@.@.@.@@
+@@@@@.@.@@
+@.@@@@..@.
+@@.@@@@.@@
+.@@@@@@@.@
+.@.@.@.@@@
+@.@@@.@@@@
+.@@@@@@@@.
+@.@.@@@.@.
+```
+
+The goal of the challenge was to identify each position `@` with less than four `@` around them in the part 1 and in the part 2 to identify how many `@` would be accessible if each time a `@` was accessible it would be removed leaving place to access others...
+
+**Task** : [here (AOC)](https://adventofcode.com/2025/day/4)\
+**Code** : [here (Github)](https://github.com/yalit/advent-of-code/blob/main/aoc2025/day_4/aoc.py)
+
+
+<CartoonRow id="day05" title="Day 5: Cafeteria" images={["blog/2025/advent-of-code-2025-recap/day_05.png", "blog/2025/advent-of-code-2025-recap/day_05bis.png","blog/2025/advent-of-code-2025-recap/day_05ter.png"]}>
+    As the forklifts break through the wall, the Elves are delighted to discover that there was a cafeteria on the other side after all.\
+    You can hear a commotion coming from the kitchen. "At this rate, we won't have any time left to put the wreaths up in the dining hall!" Resolute in your quest, you investigate.
+
+    "If only we hadn't switched to the new inventory management system right before Christmas!" another Elf exclaims. You ask what's going on.\
+    The Elves in the kitchen explain the situation: because of their complicated new inventory management system, they can't figure out which of their ingredients are fresh and which are spoiled. When you ask how it works, they give you a copy of their database.
+
+    The Elves start bringing their spoiled inventory to the trash chute at the back of the kitchen.\
+    So that they can stop bugging you when they get new inventory, the Elves would like to know all of the IDs that the fresh ingredient ID ranges consider to be fresh. An ingredient ID is still considered fresh if it is in any range
+</CartoonRow>
+
+Day 05, time to play with ranges and merging them if need be...
+
+The goal was to identify which ingredient was fresh with ensuring that the IDs of the ingredients were existing into defined ranges (which may be overlapping).\
+The part 2 challenge was to identify all of the ingredient IDs that were fresh in the ranges specified
+
+**Task** : [here (AOC)](https://adventofcode.com/2025/day/5)\
+**Code** : [here (Github)](https://github.com/yalit/advent-of-code/blob/main/aoc2025/day_5/aoc.py)
+
+
+<CartoonRow id="day06" title="Day 6: Trash Compactor" images={["blog/2025/advent-of-code-2025-recap/day_06.png", "blog/2025/advent-of-code-2025-recap/day_06bis.png","blog/2025/advent-of-code-2025-recap/day_06ter.png"]}>
+    After helping the Elves in the kitchen, you were taking a break and helping them re-enact a movie scene when you over-enthusiastically jumped into the garbage chute!
+
+    A brief fall later, you find yourself in a garbage smasher. Unfortunately, the door's been magnetically sealed. While you're trying to figure out how to escape, you are approached by a family of cephalopods! They're pretty sure they can get the door open, but it will take some time.
+
+    While you wait, the youngest cephalopod asks for your help with their math assignment. The problems are arranged in a visual puzzle format - columns of numbers with operators at the bottom.
+</CartoonRow>
+
+Day 06, time to play with columns, rows and the `reduce` function for multiplication...
+
+The challenge presents numbers arranged in columns with operators (`+` or `*`) at the bottom. Part 1 requires summing or multiplying each column based on its operator. Part 2 twists things by reading numbers vertically across lines - each digit on a different row forming a single number.
+
+The `reduce` function from `functools` is perfect for the multiplication:
+
+```python
+from functools import reduce
+
+# Part 1: process columns with their operators
+cols = [[int(line.split()[i]) for line in lines[:-1]] for i in range(len(lines[0].split()))]
+
+for i, operator in enumerate(lines[-1].split()):
+    if operator == '+':
+        total += sum(cols[i])
+    if operator == '*':
+        total += reduce(lambda tot, x: tot * x, cols[i], 1)
+```
+
+**Task** : [here (AOC)](https://adventofcode.com/2025/day/6)\
+**Code** : [here (Github)](https://github.com/yalit/advent-of-code/blob/main/aoc2025/day_6/aoc.py)
+
+<CartoonRow id="day07" title="Day 7: Teleporter Hub" images={["blog/2025/advent-of-code-2025-recap/day_07.png", "blog/2025/advent-of-code-2025-recap/day_07bis.png","blog/2025/advent-of-code-2025-recap/day_07ter.png"]}>
+    After thanking your cephalopod friends, you escape the trash compactor and find yourself in the familiar halls of a North Pole research wing. You discover a facility labeled "teleporter hub" and step onto a large yellow teleporter pad.
+
+    You're transported to an unfamiliar room! The room has no doors; the only way out is the teleporter. Unfortunately, the teleporter seems to be leaking magic smoke. Using the diagnostic equipment, you identify error code `0H-N0`, indicating an issue with one of the tachyon manifolds.
+
+    You locate a diagram of the malfunctioning device and must analyze how tachyon beams interact with it to understand the beam-splitting properties of the tachyon manifold and repair the teleporter system.
+</CartoonRow>
+
+Day 07, beam simulation with splitters on a grid...
+
+The challenge involves simulating beams traveling downward through a grid. When a beam hits a splitter (`^`), it splits into two beams going diagonally left and right. Part 1 counts the total number of splits. Part 2 tracks how many beams end up at each position - since beams can overlap, we need to count them properly.
+
+The key difference between parts is using a `set` vs a `dict`:
+
+```python
+# Part 1: just track unique positions with a set
+beams = set([start])
+for row, col in beams:
+    if (nr, col) in splitters:
+        new_beams.add((nr, col-1))
+        new_beams.add((nr, col+1))
+
+# Part 2: track beam counts at each position with a dict
+beams = {start: 1}
+for (row, col), n in beams.items():
+    if (nr, col) in splitters:
+        new_beams[(nr, col-1)] += n  # n beams become 2n beams
+        new_beams[(nr, col+1)] += n
+```
+
+**Task** : [here (AOC)](https://adventofcode.com/2025/day/7)\
+**Code** : [here (Github)](https://github.com/yalit/advent-of-code/blob/main/aoc2025/day_7/aoc.py)
+
+<CartoonRow id="day08" title="Day 8: Playground" images={["blog/2025/advent-of-code-2025-recap/day_08.png", "blog/2025/advent-of-code-2025-recap/day_08bis.png","blog/2025/advent-of-code-2025-recap/day_08ter.png"]}>
+    The teleporter brings you to an underground space containing a giant playground. A group of Elves are constructing an elaborate Christmas decoration project involving suspended electrical junction boxes.
+
+    The Elves need to connect these junction boxes with strings of lights so that electricity can reach every location. But they have limited materials: "To save on string lights, the Elves would like to focus on connecting pairs of junction boxes that are as close together as possible."
+
+    They want to understand how their final circuit configuration will look, particularly regarding the sizes of the resulting connected groups.
+</CartoonRow>
+
+Day 08, 3D distances and graph connectivity...
+
+This challenge involves junction boxes in 3D space. Part 1 connects the 10 closest pairs and finds the product of the three largest connected circuit sizes. Part 2 builds connections progressively until all boxes form a single circuit - essentially a minimum spanning tree problem.
+
+The 3D Euclidean distance and Union-Find pattern for merging circuits:
+
+```python
+import math
+
+def d(a, b):
+    return math.sqrt((a[0] - b[0])**2 + (a[1]-b[1])**2 + (a[2]-b[2])**2)
+
+# Part 2: merge circuits when connecting boxes
+if all(x is None for x in matched.values()):
+    circuits.append(set([a, b]))  # new circuit
+elif matched[a] != matched[b]:
+    # boxes in different circuits - merge them
+    c_a = circuits.pop(mi)
+    c_b = circuits.pop(ma - 1)
+    circuits.append(c_a | c_b)
+```
+
+**Task** : [here (AOC)](https://adventofcode.com/2025/day/8)\
+**Code** : [here (Github)](https://github.com/yalit/advent-of-code/blob/main/aoc2025/day_8/aoc.py)
+
+<CartoonRow id="day09" title="Day 9: Movie Theater" images={["blog/2025/advent-of-code-2025-recap/day_09.png", "blog/2025/advent-of-code-2025-recap/day_09bis.png","blog/2025/advent-of-code-2025-recap/day_09ter.png"]}>
+    You slide down a firepole in a corner of the playground and arrive at the North Pole base movie theater!
+
+    The Elves are redecorating the theater by replacing tiles in a grid floor pattern. Some tiles are red, and the Elves need to identify the largest possible rectangle using red tiles as opposite corners.
+
+    You receive a list of red tile coordinates and must calculate which two tiles form a rectangle with maximum area.
+</CartoonRow>
+
+Day 09, geometry with rectangles and point-in-polygon testing...
+
+Part 1 is straightforward: find the two tiles forming the largest rectangle area. Part 2 gets trickier - tiles form edges of rectangles, and you need to find the largest "full" rectangle with no edges crossing through it.
+
+The solution uses the classic [ray casting algorithm](https://en.wikipedia.org/wiki/Point_in_polygon) (odd-even rule) to determine if a point is inside a polygon:
+
+```python
+def area(a, b):
+    return (abs(a[0] - b[0]) + 1) * (abs(a[1] - b[1]) + 1)
+
+def is_inside(p, edges_row, edges_col):
+    # Count edge crossings - odd means inside, even means outside
+    return (sum(1 for x in edges_row[p[1]] if x >= 0 and x < p[0]) % 2 == 1 and
+            sum(1 for y in edges_col[p[0]] if y >= 0 and y < p[1]) % 2 == 1)
+```
+
+**Task** : [here (AOC)](https://adventofcode.com/2025/day/9)\
+**Code** : [here (Github)](https://github.com/yalit/advent-of-code/blob/main/aoc2025/day_9/aoc.py)
+
+<CartoonRow id="day10" title="Day 10: Factory" images={["blog/2025/advent-of-code-2025-recap/day_10.png", "blog/2025/advent-of-code-2025-recap/day_10bis.png","blog/2025/advent-of-code-2025-recap/day_10ter.png"]}>
+    You arrive at a large factory where the Elves are unable to operate the machines: "the factory machines are all offline, and none of the Elves can figure out the initialization procedure."
+
+    The comedic twist: the instruction manual's section detailing the initialization procedure was eaten by a Shiba Inu! What remains are only partial technical documents - indicator light diagrams, button schematics, and power specifications.
+
+    Your task is to decipher how to properly configure the machines' indicator lights using the available documentation fragments.
+</CartoonRow>
+
+Day 10, BFS for Part 1 and bringing out the big guns with Z3 solver for Part 2...
+
+Part 1 uses classic BFS to find the minimum steps to reach a target light configuration by toggling lights. Part 2 becomes an optimization problem - finding the minimum number of button presses - where the [Z3 SMT solver](https://en.wikipedia.org/wiki/Z3_Theorem_Prover) shines.
+
+```python
+from collections import deque
+from z3 import *
+
+# Part 1: BFS to find minimum steps
+to_visit = deque([(tuple([0 for _ in range(len(target))]), 0)])
+while to_visit:
+    lights, steps = to_visit.popleft()
+    if lights == target:
+        return steps
+    for a in actions:
+        new_lights = tuple([1 - c if i in a else c for i, c in enumerate(lights)])
+        to_visit.append((new_lights, steps + 1))
+
+# Part 2: Z3 optimization
+variables = [Int(f"x{i}") for i in range(len(actions))]
+solver = Optimize()
+for elems, m in equations:
+    solver.add(m == sum([variables[i] for i in elems]))
+solver.minimize(sum(variables))
+solver.check()
+```
+
+**Task** : [here (AOC)](https://adventofcode.com/2025/day/10)\
+**Code** : [here (Github)](https://github.com/yalit/advent-of-code/blob/main/aoc2025/day_10/aoc.py)
+
+<CartoonRow id="day11" title="Day 11: Reactor" images={["blog/2025/advent-of-code-2025-recap/day_11.png", "blog/2025/advent-of-code-2025-recap/day_11bis.png","blog/2025/advent-of-code-2025-recap/day_11ter.png"]}>
+    You hear loud beeping coming from a hatch in the floor of the factory. Descending the ladder, you discover a large toroidal reactor powering the facility above.
+
+    An Elf urgently explains: "We just installed a new server rack, but we aren't having any luck getting the reactor to communicate with it!" The team believes the issue is triggered by data following some specific path through the devices.
+
+    Your task is to trace every path from `you` to `out` - starting at a device an Elf hastily labeled "you" and ending at "out," the main reactor output.
+</CartoonRow>
+
+Day 11, graph traversal and path counting with memoization...
+
+Part 1 counts all paths from "you" to "out" using [BFS](https://en.wikipedia.org/wiki/Breadth-first_search) with full path tracking. Part 2 adds constraints - count only paths that pass through both "dac" and "fft" nodes. [Memoization](https://en.wikipedia.org/wiki/Memoization) becomes essential to avoid exponential blowup.
+
+```python
+known = {}
+
+def get_nb_paths(start, finish, dac=False, fft=False):
+    if (start, finish, dac, fft) in known:
+        return known[(start, finish, dac, fft)]
+
+    if start == finish:
+        return 1 if (dac and fft) else 0
+
+    total = 0
+    for n in racks[start]:
+        total += get_nb_paths(n, finish, dac or n == "dac", fft or n == "fft")
+
+    known[(start, finish, dac, fft)] = total
+    return total
+```
+
+**Task** : [here (AOC)](https://adventofcode.com/2025/day/11)\
+**Code** : [here (Github)](https://github.com/yalit/advent-of-code/blob/main/aoc2025/day_11/aoc.py)
+
+<CartoonRow id="day12" title="Day 12: Christmas Trees" images={["blog/2025/advent-of-code-2025-recap/day_12.png", "blog/2025/advent-of-code-2025-recap/day_12bis.png","blog/2025/advent-of-code-2025-recap/day_12ter.png"]}>
+    Racing against time, you discover a ventilation duct that leads to a large, well-lit cavern full of Christmas trees. A group of Elves are working frantically to decorate before the deadline.
+
+    They face one significant worry: "the presents for all the young Elves that live here at the North Pole." It's an ancient tradition to put the presents under the trees, but the Elves are worried they won't fit.
+
+    The presents come in various unusual shapes and must be placed on a two-dimensional grid - they can be rotated and flipped, but cannot overlap or stack. Can you help fit them all?
+</CartoonRow>
+
+Day 12, the grand finale - a classic polyomino packing problem...
+
+This is a constraint satisfaction problem: fit various shapes under trees without overlapping. Shapes can be rotated (4 orientations) and flipped (horizontal/vertical), giving up to 8 possible configurations per shape. The solution uses backtracking with memoization via Python's [`@cache`](https://docs.python.org/3/library/functools.html#functools.cache) decorator from `functools`.
+
+```python
+from functools import cache
+
+# Backtracking with memoization
+@cache
+def is_possible(placements, area, w, h):
+    if all(x is not None for x in placements):
+        return True
+
+    n = placements.index(None)
+    shape = to_fit[n]
+
+    for row in range(h - 3):
+        for col in range(w - 3):
+            for comb in combinations[shape]:
+                if not can_fit(comb, area, w, h, row, col):
+                    continue
+                if is_possible(...):  # recursive call with updated state
+                    return True
+    return False
+
+# Shape transformations: rotate and flip
+def rotate(shape):
+    t = {(0,0): (0,1), (0,1): (0,2), (0,2): (1,2), (1,2): (2,2),
+         (2,2): (2,1), (2,1): (2,0), (2,0): (1,0), (1,0): (0,0), (1,1): (1,1)}
+    return tuple([t[x] for x in shape])
+
+def flip_h(shape):
+    return tuple([(2-r, c) for r, c in shape])
+```
+
+**Task** : [here (AOC)](https://adventofcode.com/2025/day/12)\
+**Code** : [here (Github)](https://github.com/yalit/advent-of-code/blob/main/aoc2025/day_12/aoc.py)
+
