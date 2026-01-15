@@ -9,6 +9,8 @@ import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote"
 import { serialize } from "next-mdx-remote/serialize"
 import { join } from "path"
 import CartoonRow from "@/components/blog/cartoonRow";
+import { H2 } from "@/components/shared/H2"
+import { H3 } from "@/components/shared/H3"
 
 type BlogPageProps = { post: PostInterface | null, mdxSource: MDXRemoteSerializeResult }
 
@@ -16,6 +18,8 @@ const availableComponents = {
     BlogImage,
     CartoonRow,
     pre: (props: any) => <CodeBlock {...props} />,
+	h2: (props: any) => <H2 {...props} />,
+	h3: (props: any) => <H3 {...props} />,
 }
 
 export default function BlogPage({ post, mdxSource }: BlogPageProps) {
